@@ -10,8 +10,8 @@
 
 class Amazon_Payments_Model_SimplePath
 {
-    const API_ENDPOINT_DOWNLOAD_KEYS = 'https://payments.amazon.com/817ee4262/downloadkeyspage';
-    const API_ENDPOINT_GET_PUBLICKEY = 'https://payments.amazon.com/817ee4262/getpublickey';
+    const API_ENDPOINT_DOWNLOAD_KEYS = 'https://spow-na.integ.amazon.com/workflow';
+    const API_ENDPOINT_GET_PUBLICKEY = 'https://spow-na.integ.amazon.com/getpublickey';
 
     const PARAM_SP_NAME = '';
 
@@ -182,7 +182,9 @@ class Amazon_Payments_Model_SimplePath
             return;
         }
 
-        return self::API_ENDPOINT_DOWNLOAD_KEYS . '?post_url=' . $this->getListenerUrl() . '&pub_key=' . urlencode($this->getPublicKey(false, true));
+        return self::API_ENDPOINT_DOWNLOAD_KEYS . '?returnUrl=' . $this->getListenerUrl() .
+						'&pub_key=' . urlencode($this->getPublicKey(false, true)) .
+						'#event/fromSP';
     }
 
     /**
