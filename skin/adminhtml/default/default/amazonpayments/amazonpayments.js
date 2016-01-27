@@ -41,8 +41,13 @@ document.observe("dom:loaded", function() {
 
     // Get Started clicked
     $("simplepath_form").observe("submit", function(e) {
+        var heights = [660, 720, 810, 900];
+        var popupHeight = heights[0];
+        for (var i in heights) {
+          popupHeight = (window.innerHeight >= heights[i]) ? heights[i] : popupHeight;
+        }
 
-        window.launchPopup('', 768, 820);
+        window.launchPopup('', 768, popupHeight);
 
         amazonFields[1].show();
         amazonImport.show();
