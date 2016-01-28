@@ -15,17 +15,7 @@ class Amazon_Payments_Model_System_Config_Backend_Simplepath extends Mage_Core_M
      */
     public function save()
     {
-        $value = trim($this->getValue());
-
-        if ($value) {
-            $value = str_replace('&quot;', '"', $value);
-            $_simplePath = Mage::getModel('amazon_payments/simplePath');
-
-            $json = $_simplePath->decryptPayload($value);
-            Mage::getSingleton('adminhtml/session')->addSuccess("Import from clipboard decrypted: $json");
-        }
-
-        // Don't save
+        // Don't save        
         //return parent::save();
     }
 

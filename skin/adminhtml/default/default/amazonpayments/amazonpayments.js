@@ -15,11 +15,14 @@ document.observe("dom:loaded", function() {
     var amazonImport = $("row_payment_ap_credentials_simplepath_json");
     var amazonImportButton = $("row_payment_ap_credentials_simplepath_import_button");
 
-
     amazonInstructions.hide();
     amazonFields.each(Element.hide);
-    amazonImport.hide();
+    if (amazonImport != null) amazonImport.hide();
 
+    if ($("payment_ap_credentials_seller_id") == null || $("payment_ap_credentials_seller_id").value) {
+        showAmazonConfig();
+        amazonInstructions.hide();
+    }
 
     // Generate form to post to Amazon
     var form = new Element('form', { method: 'post', action: AmazonSp.amazonUrl, id: 'simplepath_form', target: 'simplepath'});
@@ -59,17 +62,31 @@ document.observe("dom:loaded", function() {
 
     });
 
-
     // User is skipping simplepath
     amazonSimplepath.select("a")[0].observe("click", function(e) {
         e.stop();
         showAmazonConfig();
     });
 
-
+    // Show clipboard import textbox
     amazonImportButton.select("button")[0].observe("click", function(e) {
         amazonImportButton.hide();
         amazonImport.show();
+    });
+
+    // User clicked import 'Save'
+    $("row_payment_ap_credentials_simplepath_json").select("button")[0].observe("click", function(e) {
+        e.stop();
+        this.className = "disabled";
+
+        new Ajax.Request(AmazonSp.importUrl, {
+            method:'post',
+            parameters: { 'json': $("payment_ap_credentials_simplepath_json").value },
+            onSuccess: function(transport) {
+              location.reload();
+            },
+            onFailure: function() {  }
+        });
     });
 
     if (!AmazonSp.isSecure) {
@@ -79,22 +96,21 @@ document.observe("dom:loaded", function() {
         $("amazon_openssl_required").show();
     }
 
-    if ($("payment_ap_credentials_seller_id").value) {
-        showAmazonConfig();
-        amazonInstructions.hide();
-    }
+
     if (!AmazonSp.isUsa) {
         showAmazonConfig();
-
     }
+
+
 
   }
 
   function showAmazonConfig() {
       amazonFields.each(Element.show);
+      amazonSimplepath.hide();
       amazonImport.hide();
       amazonInstructions.show();
-      amazonSimplepath.hide();
+
   }
 
 
