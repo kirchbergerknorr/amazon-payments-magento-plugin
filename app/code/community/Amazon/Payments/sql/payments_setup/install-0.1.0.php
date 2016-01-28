@@ -42,12 +42,12 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'disable_amazonpaym
 /**
  * Create amazon_login table
  */
-$amazon_login_table = $installer->getTable('amazon_login/login');
+$amazon_login_table = $installer->getTable('amazon_payments/login');
 
 if ($installer->getConnection()->isTableExists($amazon_login_table) != true) {
 
     $amazon_table = $installer->getConnection()
-        ->newTable($installer->getTable('amazon_login/login'))
+        ->newTable($installer->getTable('amazon_payments/login'))
         ->addColumn('login_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'identity' => true,
             'unsigned' => true,
@@ -62,8 +62,8 @@ if ($installer->getConnection()->isTableExists($amazon_login_table) != true) {
             'nullable' => true,
             'unsigned' => true
         ), 'Amazon User ID')
-        ->addIndex($installer->getIdxName('amazon_login/login', array('customer_id')), array('customer_id'))
-        ->addIndex($installer->getIdxName('amazon_login/login', array('amazon_uid')), array('amazon_uid'));
+        ->addIndex($installer->getIdxName('amazon_payments/login', array('customer_id')), array('customer_id'))
+        ->addIndex($installer->getIdxName('amazon_payments/login', array('amazon_uid')), array('amazon_uid'));
 
     $installer->getConnection()->createTable($amazon_table);
 
