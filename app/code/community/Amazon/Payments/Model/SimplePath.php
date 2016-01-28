@@ -162,6 +162,9 @@ class Amazon_Payments_Model_SimplePath
     public function saveToConfig($json)
     {
         if ($values = Zend_Json::decode($json, Zend_Json::TYPE_OBJECT)) {
+            foreach ($values as $key => $value) {
+              $values->{strtolower($key)} = $value;
+            }
             $config = Mage::getModel('core/config');
             $amazonConfig = Mage::getSingleton('amazon_payments/config');
 
