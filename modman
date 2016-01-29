@@ -10,7 +10,8 @@ app/design/frontend/base/default/template/amazon_payments           app/design/f
 app/etc/modules/Amazon_Diagnostics.xml                              app/etc/modules/Amazon_Diagnostics.xml
 app/etc/modules/Amazon_Login.xml                                    app/etc/modules/Amazon_Login.xml
 app/etc/modules/Amazon_Payments.xml                                 app/etc/modules/Amazon_Payments.xml
-app/locale/en_US/template/email/amazon_payments_async_decline.html  app/locale/en_US/template/email/amazon_payments_async_decline.html
+app/locale/en_US/template/email/amazon_payments_async_decline_hard.html  app/locale/en_US/template/email/amazon_payments_async_decline_hard.html
+app/locale/en_US/template/email/amazon_payments_async_decline_soft.html  app/locale/en_US/template/email/amazon_payments_async_decline_soft.html
 lib/MarketplaceWebServiceSellers                                    lib/MarketplaceWebServiceSellers
 lib/OffAmazonPayments                                               lib/OffAmazonPayments
 lib/OffAmazonPaymentsNotifications                                  lib/OffAmazonPaymentsNotifications
