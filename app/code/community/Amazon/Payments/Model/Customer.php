@@ -69,7 +69,7 @@ class Amazon_Payments_Model_Customer extends Mage_Customer_Model_Customer
      */
     public function getAmazonProfile($token)
     {
-        return Mage::getModel('amazon_payments/api')->request('user/profile?access_token=' . urlencode($token));
+        return Mage::getModel('amazon_payments/login')->request('user/profile?access_token=' . urlencode($token));
     }
 
     /**

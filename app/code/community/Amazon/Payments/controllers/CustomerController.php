@@ -25,7 +25,7 @@ class Amazon_Payments_CustomerController extends Mage_Core_Controller_Front_Acti
         }
 
         if ($token) {
-            $customer = Mage::getModel('amazon_login/customer')->loginWithToken($token);
+            $customer = Mage::getModel('amazon_payments/customer')->loginWithToken($token);
 
             if ($customer->getId()) {
                 $this->_redirectUrl(Mage::helper('customer')->getDashboardUrl());
@@ -61,11 +61,11 @@ class Amazon_Payments_CustomerController extends Mage_Core_Controller_Front_Acti
     public function verifyAction()
     {
         if ($login = $this->getRequest()->getParam('login')) {
-            $profile = Mage::helper('amazon_login')->getAmazonProfileSession();
+            $profile = Mage::helper('amazon_payments')->getAmazonProfileSession();
 
             try {
                 if (Mage::getSingleton('customer/session')->login($profile['email'], $login['password'])) {
-                    Mage::getSingleton('amazon_login/customer')->createAssociation($profile, Mage::getSingleton('customer/session')->getCustomer()->getId());
+                    Mage::getSingleton('amazon_payments/customer')->createAssociation($profile, Mage::getSingleton('customer/session')->getCustomer()->getId());
 
                     if ($token = Mage::getSingleton('checkout/session')->getAmazonAccessTokenVerify()) {
                         Mage::getSingleton('checkout/session')->setAmazonAccessToken($token);
@@ -87,7 +87,6 @@ class Amazon_Payments_CustomerController extends Mage_Core_Controller_Front_Acti
             }
 
         }
-
 
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');

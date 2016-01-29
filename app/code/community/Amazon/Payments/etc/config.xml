@@ -25,7 +25,7 @@
                 <resourceModel>login_mysql4</resourceModel>
             </amazon_payments>
             <login_mysql4>
-                <class>Amazon_Login_Model_Resource</class>
+                <class>Amazon_Payments_Model_Resource</class>
                 <entities>
                     <login>
                         <table>amazon_login</table>
@@ -115,7 +115,7 @@
             <checkout_amazon>/checkout/amazon_payments</checkout_amazon>
             <amazon_checkout>/amazon_payments/checkout</amazon_checkout>
             <simplepath>/amazon_payments/simplepath</simplepath>
-            <amazon_login_verify>/amazon_login/customer/verify</amazon_login_verify>
+            <amazon_login_verify>/amazon_payments/customer/verify</amazon_login_verify>
         </secure_url>
         <routers>
             <amazon_payments>
