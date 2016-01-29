@@ -188,6 +188,11 @@
                 <client_secret backend_model="adminhtml/system_config_backend_encrypted" />
             </amazon_payments>
         </payment>
+        <amazon_login>
+            <settings>
+                <popup>1</popup>
+            </settings>
+        </amazon_login>
     </default>
     <crontab>
         <jobs>
