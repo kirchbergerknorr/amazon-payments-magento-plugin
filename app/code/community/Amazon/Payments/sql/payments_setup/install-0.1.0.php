@@ -69,7 +69,7 @@ if ($installer->getConnection()->isTableExists($amazon_login_table) != true) {
 
     $installer->getConnection()->addConstraint(
         'fk_amazon_login_customer_entity_id',
-        $installer->getTable('amazon_login/login'),
+        $installer->getTable('amazon_payments/login'),
         'customer_id',
         $installer->getTable('customer/entity'),
         'entity_id',
