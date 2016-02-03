@@ -121,4 +121,12 @@ class Amazon_Payments_Block_Login_Button extends Mage_Core_Block_Template
         return $this->helper('amazon_payments')->getCheckoutUrl() . 'account/redirect';
     }
 
+    /**
+     * Get language
+     */
+    public function getLanguage()
+    {
+        return Mage::helper('amazon_login')->getLanguage();
+    }
+
 }

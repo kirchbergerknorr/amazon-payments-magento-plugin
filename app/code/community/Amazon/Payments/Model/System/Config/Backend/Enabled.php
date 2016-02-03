@@ -20,12 +20,13 @@ class Amazon_Payments_Model_System_Config_Backend_Enabled extends Mage_Core_Mode
         $isEnabled = $this->getValue();
 
         if ($isEnabled) {
-            if ($data['seller_id']['value'] && !ctype_alnum($data['seller_id']['value'])) {
-                Mage::getSingleton('core/session')->addError('Error: Please verify your Seller ID (alphanumeric characters only).');
+            if ($data['seller_id'] && !ctype_alnum($data['seller_id'])) {
+                Mage::getSingleton('core/session')->addError(Mage::helper('adminhtml')->__('Error: Please verify your Seller ID (alphanumeric characters only).'));
             }
         }
         return parent::save();
     }
+
     /**
      * Perform API call to Amazon to validate keys
      *
@@ -41,8 +42,10 @@ class Amazon_Payments_Model_System_Config_Backend_Enabled extends Mage_Core_Mode
         }
 
         if ($isEnabled && $data['access_key']['value']) {
+            $serviceUrl = $this->getMwsSellerApiUrl();
+
             $config = array (
-                'ServiceURL' => "https://mws.amazonservices.com/Sellers/2011-07-01",
+                'ServiceURL' => $serviceUrl,
                 'ProxyHost' => null,
                 'ProxyPort' => -1,
                 'ProxyUsername' => null,
@@ -60,20 +63,20 @@ class Amazon_Payments_Model_System_Config_Backend_Enabled extends Mage_Core_Mode
             $request->setSellerId($data['seller_id']['value']);
             try {
                 $service->ListMarketplaceParticipations($request);
-                Mage::getSingleton('core/session')->addSuccess("All of your Amazon API keys are correct!");
+                Mage::getSingleton('core/session')->addSuccess(Mage::helper('adminhtml')->__('All of your Amazon API keys are correct.'));
                 }
             catch (MarketplaceWebServiceSellers_Exception $ex) {
                 if ($ex->getErrorCode() == 'InvalidAccessKeyId'){
-                    Mage::getSingleton('core/session')->addError("The Amazon MWS Access Key is incorrect");
+                    Mage::getSingleton('core/session')->addError(Mage::helper('adminhtml')->__('The Amazon MWS Access Key is incorrect.'));
                 }
                 else if ($ex->getErrorCode() == 'SignatureDoesNotMatch'){
-                    Mage::getSingleton('core/session')->addError("The Amazon MWS Secret Key is incorrect");
+                    Mage::getSingleton('core/session')->addError(Mage::helper('adminhtml')->__('The Amazon MWS Secret Key is incorrect.'));
                 }
                 else if ($ex->getErrorCode() == 'InvalidParameterValue'){
-                    Mage::getSingleton('core/session')->addError("The Amazon Seller/Merchant ID is incorrect");
+                    Mage::getSingleton('core/session')->addError(Mage::helper('adminhtml')->__('The Amazon Seller/Merchant ID is incorrect.'));
                 }
                 else if ($ex->getErrorCode() == 'AccessDenied') {
-                    Mage::getSingleton('core/session')->addError("The Amazon Seller/Merchant ID does not match the MWS keys provided");
+                    Mage::getSingleton('core/session')->addError(Mage::helper('adminhtml')->__('The Amazon Seller/Merchant ID does not match the MWS keys provided.'));
                 }
                 else{
                     $string =  " Error Message: " . $ex->getMessage();
@@ -110,6 +113,29 @@ class Amazon_Payments_Model_System_Config_Backend_Enabled extends Mage_Core_Mode
     {
         $groups = $this->getData('groups');
         return $groups['ap_credentials']['fields'];
+    }
+
+    /**
+     * Return Widgets.js URL
+     */
+    public function getMwsSellerApiUrl()
+    {
+        switch (Mage::getStoreConfig('amazon_login/settings/region')) {
+          case 'uk':
+              $tld = 'co.uk';
+              break;
+
+          case 'de':
+              $tld = 'de';
+              break;
+
+          // US
+          default:
+              $tld = 'com';
+              break;
+        }
+
+        return "https://mws.amazonservices.".$tld."/Sellers/2011-07-01";
     }
 
 }

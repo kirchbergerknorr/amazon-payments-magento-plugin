@@ -26,8 +26,6 @@
             <![CDATA[
                     Login and Pay with Amazon helps you increase conversation, reduce fraud, acquire new customers and build loyalty.  <a href="https://payments.amazon.com/" target="_blank">Learn More.</a>
                     <br /><br />
-
-
                     <div id="amazon_simplepath">
                         <span style="display:inline-block;padding-bottom:1em;">
                             <button><span>Get started with Amazon Payments</span></button>
@@ -59,9 +57,6 @@
                         <li>Under General->Web, enable "Use Secure URLs in Frontend." (HTTPS is required.)
                       </ol>
                     </div>
-
-
-
                     <div style="clear:both;"></div>
             ]]>
             </comment>
@@ -455,7 +450,6 @@
                   </restricted_ips>
               </fields>
           </ap_developer>
-
 
           </fields>
         </amazon_payments>
