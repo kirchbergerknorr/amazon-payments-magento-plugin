@@ -97,7 +97,7 @@ class Amazon_Payments_Block_Login_Script extends Mage_Core_Block_Template
      */
     public function getRegion()
     {
-        switch ($this->helper('amazon_login')->getRegion()) {
+        switch ($this->helper('amazon_payments')->getRegion()) {
             case 'uk':
             case 'de':
                 return 'EU';

@@ -15,7 +15,7 @@ class Amazon_Payments_Model_System_Config_Backend_Localizecomment extends Mage_C
      */
     public function getCommentText(Mage_Core_Model_Config_Element $element, $currentValue)
     {
-        switch (Mage::helper('amazon_login')->getAdminRegion()) {
+        switch (Mage::helper('amazon_payments')->getAdminRegion()) {
             case 'eu':
                 $domain = 'sellercentral-europe.amazon.com';
                 break;
@@ -29,21 +29,24 @@ class Amazon_Payments_Model_System_Config_Backend_Localizecomment extends Mage_C
             $script = '
                 $$(".amzn-link").each(function(el, i) {
                     if (el.href) {
-                        el.href = el.href.replace("sellercentral.amazon.com", "' . $domain . '");
+                        //el.href = el.href.replace("sellercentral.amazon.com", "' . $domain . '");
+                        el.href = "https://' . $domain . '";
                     }
 
                     var onclick = el.readAttribute("onclick");
 
                     if (onclick) {
-                        el.writeAttribute("onclick", "javascript:window.open(\'https://' . $domain . '\')");
+                        el.writeAttribute("href", "javascript:window.open(\'https://' . $domain . '\')");
                         //el.writeAttribute("onclick", onclick.toString().replace("sellercentral.amazon.com", "' . $domain . '"));
                     }
 
                 });
+
+                $$(".amzn-us-signup").invoke("hide");
                 ';
 
             // Update doc domain
-            if (Mage::helper('amazon_login')->isAdminGermany()) {
+            if (Mage::helper('amazon_payments')->isAdminGermany()) {
                 $script .= '
                 $$(".amzn-doc-link").each(function(el, i) {
                     el.href = el.href.replace(".co.uk", ".de");

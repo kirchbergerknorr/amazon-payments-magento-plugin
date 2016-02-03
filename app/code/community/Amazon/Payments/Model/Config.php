@@ -36,8 +36,8 @@ class Amazon_Payments_Model_Config
     const CONFIG_XML_PATH_BUTTON_SIZE    = 'payment/amazon_payments/button_size';
     const CONFIG_XML_PATH_BUTTON_BADGE   = 'payment/amazon_payments/button_badge';
 
-    const CONFIG_XML_PATH_REGION         = 'payment/amazon_payments/region';
-    const CONFIG_XML_PATH_LANGUAGE       = 'payment/amazon_payments/language';
+    const CONFIG_XML_PATH_REGION         = 'amazon_login/settings/region';
+    const CONFIG_XML_PATH_LANGUAGE       = 'amazon_login/settings/language';
 
     /**
      * Retrieve config value for store by path

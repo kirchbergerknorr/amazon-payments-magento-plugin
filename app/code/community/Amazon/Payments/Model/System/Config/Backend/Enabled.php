@@ -20,7 +20,7 @@ class Amazon_Payments_Model_System_Config_Backend_Enabled extends Mage_Core_Mode
         $isEnabled = $this->getValue();
 
         if ($isEnabled) {
-            if ($data['seller_id'] && !ctype_alnum($data['seller_id'])) {
+            if ($data['seller_id']['value'] && !ctype_alnum($data['seller_id']['value'])) {
                 Mage::getSingleton('core/session')->addError(Mage::helper('adminhtml')->__('Error: Please verify your Seller ID (alphanumeric characters only).'));
             }
         }
