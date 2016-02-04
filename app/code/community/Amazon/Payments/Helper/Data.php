@@ -237,4 +237,20 @@ class Amazon_Payments_Helper_Data extends Mage_Core_Helper_Abstract
         return (Mage::getStoreConfig('amazon_login/settings/popup'));
     }
 
+    /**
+     * Get config by website or store admin scope
+     */
+    public function getAdminConfig($path)
+    {
+        if ($storeCode = Mage::app()->getRequest()->getParam('store')) {
+            return Mage::getStoreConfig($path, $storeCode);
+        }
+        else if ($websiteCode = Mage::app()->getRequest()->getParam('website')) {
+            return Mage::app()->getWebsite($websiteCode)->getConfig($path);
+        }
+        else {
+            return Mage::getStoreConfig($path);
+        }
+    }
+
 }
