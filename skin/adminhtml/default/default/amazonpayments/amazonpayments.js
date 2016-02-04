@@ -65,7 +65,17 @@ document.observe("dom:loaded", function() {
     // User is skipping simplepath
     amazonSimplepath.select("a")[0].observe("click", function(e) {
         e.stop();
+        $("amazon_simplepath_back").show();
         showAmazonConfig();
+    });
+
+    // User clicked 'Back'
+    $("amazon_simplepath_back").select("a")[0].observe("click", function(e) {
+        e.stop();
+        $("amazon_simplepath_back").hide();
+        amazonSimplepath.show();
+        amazonInstructions.hide();
+
     });
 
     // Show clipboard import textbox
