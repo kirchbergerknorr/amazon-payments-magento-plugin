@@ -43,6 +43,11 @@
 
                     </div>
 
+                    <div id="amazon_simplepath_back" style="display:none;margin-bottom:1em;margin-top:-0.5em;">
+                      <a href="#">&laquo; Back</a>
+                    </div>
+
+
                     <div id="amazon_instructions">
 
                       <strong>Steps to Launch Login and Pay with Amazon</strong>

@@ -13,7 +13,7 @@ class Amazon_Payments_Model_SimplePath
     const API_ENDPOINT_DOWNLOAD_KEYS = 'https://spow-na.integ.amazon.com/workflow';
     const API_ENDPOINT_GET_PUBLICKEY = 'https://spow-na.integ.amazon.com/getpublickey';
 
-    const PARAM_SP_NAME = '';
+    const PARAM_SP_ID = 'AGWSWK15IEJJ7';
 
     const CONFIG_XML_PATH_PRIVATE_KEY = 'payment/amazon_payments/simplepath/privatekey';
     const CONFIG_XML_PATH_PUBLIC_KEY  = 'payment/amazon_payments/simplepath/publickey';
@@ -221,7 +221,7 @@ class Amazon_Payments_Model_SimplePath
 
         return array(
             'locale' => Mage::getStoreConfig('general/country/default'),
-            'spName' => self::PARAM_SP_NAME,
+            'spId' => self::PARAM_SP_ID,
             'allowedLoginDomains[]' => array(array_unique($urls)),
             'spSoftwareVersion' => Mage::getVersion(),
             'spAmazonPluginVersion' => Mage::getConfig()->getModuleConfig("Amazon_Payments")->version,
