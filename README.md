@@ -26,6 +26,21 @@ or [Learn More about Amazon Payments] (https://payments.amazon.com/sp/magento)
         * More information on Magento Cache Management [here](http://www.magentocommerce.com/knowledge-base/entry/cache-storage-management)
     * Log out of the admin page and then log back in to ensure activation of the module
 
+### Uninstall/Disable
+* From the command line edit the files: 
+   * `<magento_root>/app/etc/modules/Amazon_Login.xml`
+   * `<magento_root>/app/etc/modules/Amazon_Payments.xml`
+* In each file, change the line
+   `<active>true</active>`
+   to
+   `<active>false</active>`
+
+* This will completely disable the extension and prevent any resources being loaded by Magento.
+
+
+instead of this write
+
+<active>false</active>
 
 ### Configure Magento
 * The plugin is configured under "System" (top-nav) -> "Configuration" (menu) -> "Payment Methods" (left nav) -> "Amazon Payments" (main page).
