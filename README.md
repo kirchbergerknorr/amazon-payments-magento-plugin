@@ -38,10 +38,6 @@ or [Learn More about Amazon Payments] (https://payments.amazon.com/sp/magento)
 * This will completely disable the extension and prevent any resources being loaded by Magento.
 
 
-instead of this write
-
-<active>false</active>
-
 ### Configure Magento
 * The plugin is configured under "System" (top-nav) -> "Configuration" (menu) -> "Payment Methods" (left nav) -> "Amazon Payments" (main page).
 * If you haven't already registered, use the link in the module to create an Amazon Payments account.
