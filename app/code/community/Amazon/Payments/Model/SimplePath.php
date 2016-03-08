@@ -183,8 +183,7 @@ class Amazon_Payments_Model_SimplePath
      */
     public function getListenerUrl()
     {
-        $replace_cleanup = array('index.php/', ':80', ':443');
-        return str_replace($replace_cleanup, '', Mage::getUrl('amazon_payments/simplepath', array('_store' => 1, '_forced_secure' => true)));
+        return Mage::getUrl('amazon_payments/simplepath', array('_store' => 1, '_forced_secure' => true));
     }
 
     /**
@@ -216,7 +215,7 @@ class Amazon_Payments_Model_SimplePath
             ->where('path IN (?)', array('web/unsecure/base_url', 'web/secure/base_url'));
 
         foreach ($db->fetchAll($select) as $row) {
-            $urls[] = str_replace('http:', 'https:', $row['value']);
+            $urls[] = str_replace('http:', 'https:', rtrim($row['value'], '/'));
         }
 
         return array(
@@ -237,9 +236,9 @@ class Amazon_Payments_Model_SimplePath
     {
         return array(
             'amazonUrl'     => $this->getSimplepathUrl(),
-            'pollUrl'       => Mage::helper("adminhtml")->getUrl('adminhtml/amazon_simplepath/poll'),
+            'pollUrl'       => Mage::helper('adminhtml')->getUrl('adminhtml/amazon_simplepath/poll'),
             //'spUrl'         => Mage::helper("adminhtml")->getUrl('adminhtml/amazon_simplepath/spurl'),
-            'importUrl'     => Mage::helper("adminhtml")->getUrl('adminhtml/amazon_simplepath/import'),
+            'importUrl'     => Mage::helper('adminhtml')->getUrl('adminhtml/amazon_simplepath/import'),
             'isSecure'      => (int) (Mage::app()->getFrontController()->getRequest()->isSecure()),
             'isUsa'         => (int) (Mage::helper('amazon_payments')->getAdminConfig('general/country/default') == 'US'),
             'hasOpenssl'    => (int) (extension_loaded('openssl')),
