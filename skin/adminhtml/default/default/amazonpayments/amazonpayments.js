@@ -14,6 +14,7 @@ document.observe("dom:loaded", function() {
     var amazonFields = $$("#payment_amazon_payments tr");
     var amazonImport = $("row_payment_ap_credentials_simplepath_json");
     var amazonImportButton = $("row_payment_ap_credentials_simplepath_import_button");
+    var amazonSpBack = $("amazon_simplepath_back");
 
     amazonInstructions.hide();
     amazonFields.each(Element.hide);
@@ -21,7 +22,6 @@ document.observe("dom:loaded", function() {
 
     if ($("payment_ap_credentials_seller_id") == null || $("payment_ap_credentials_seller_id").value) {
         showAmazonConfig();
-        amazonInstructions.hide();
     }
 
     // Generate form to post to Amazon
@@ -65,14 +65,14 @@ document.observe("dom:loaded", function() {
     // User is skipping simplepath
     amazonSimplepath.select("a")[0].observe("click", function(e) {
         e.stop();
-        $("amazon_simplepath_back").show();
+        amazonSpBack.show();
         showAmazonConfig();
     });
 
     // User clicked 'Back'
     $("amazon_simplepath_back").select("a")[0].observe("click", function(e) {
         e.stop();
-        $("amazon_simplepath_back").hide();
+        amazonSpBack.hide();
         amazonSimplepath.show();
         amazonInstructions.hide();
 
@@ -119,7 +119,14 @@ document.observe("dom:loaded", function() {
       amazonFields.each(Element.show);
       amazonSimplepath.hide();
       amazonImport.hide();
-      amazonInstructions.show();
+      amazonSpBack.show();
+
+      if ($("payment_ap_credentials_seller_id") == null || $("payment_ap_credentials_seller_id").value) {
+        amazonInstructions.hide();
+      } else {
+        amazonInstructions.show();
+      }
+
 
   }
 

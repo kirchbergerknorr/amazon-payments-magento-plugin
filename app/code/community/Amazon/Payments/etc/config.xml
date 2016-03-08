@@ -178,7 +178,7 @@
     <default>
         <payment>
             <amazon_payments>
-                <title>Amazon Payments</title>
+                <title>Login and Pay with Amazon</title>
                 <model>amazon_payments/paymentMethod</model>
                 <payment_action>authorize_capture</payment_action>
                 <checkout_page>amazon</checkout_page>
