@@ -137,6 +137,9 @@ class Amazon_Payments_Model_SimplePath
               // Decrypt final payload (AES 128-bit)
               $finalPayload = mcrypt_cbc(MCRYPT_RIJNDAEL_128, $decryptedKey, base64_decode($payload->encryptedPayload), MCRYPT_DECRYPT, base64_decode($payload->iv));
 
+              // Trim excess null characters
+              $finalPayload = rtrim($finalPayload, "\0");
+
               if (Zend_Json::decode($finalPayload)) {
                   $this->saveToConfig($finalPayload);
                   $this->destroyKeys();
