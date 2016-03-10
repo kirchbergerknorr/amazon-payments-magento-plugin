@@ -186,7 +186,7 @@ class Amazon_Payments_Model_SimplePath
      */
     public function getListenerUrl()
     {
-        return Mage::getUrl('amazon_payments/simplepath', array('_store' => 1, '_forced_secure' => true));
+        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . 'amazon_payments/simplepath';
     }
 
     /**
@@ -194,11 +194,6 @@ class Amazon_Payments_Model_SimplePath
      */
     public function getSimplepathUrl()
     {
-        // Don't generate key-pair or simplepath URL if credentials exist
-        if (Mage::getSingleton('amazon_payments/config')->getSellerId()) {
-            return;
-        }
-
         return self::API_ENDPOINT_DOWNLOAD_KEYS . '?returnUrl=' . $this->getListenerUrl() .
 						'&pub_key=' . urlencode($this->getPublicKey(false, true)) .
 						'#event/fromSP';
@@ -218,7 +213,8 @@ class Amazon_Payments_Model_SimplePath
             ->where('path IN (?)', array('web/unsecure/base_url', 'web/secure/base_url'));
 
         foreach ($db->fetchAll($select) as $row) {
-            $urls[] = str_replace('http:', 'https:', rtrim($row['value'], '/'));
+            $url = parse_url($row['value']);
+            $urls[] = 'https://' . $url['host'];
         }
 
         return array(
