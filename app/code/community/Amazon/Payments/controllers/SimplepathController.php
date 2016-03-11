@@ -16,7 +16,9 @@ class Amazon_Payments_SimplepathController extends Mage_Core_Controller_Front_Ac
      */
     public function indexAction()
     {
-        header('Access-Control-Allow-Origin: https://payments.amazon.com');
+        $url = parse_url(Amazon_Payments_Model_SimplePath::API_ENDPOINT_DOWNLOAD_KEYS);
+
+        header('Access-Control-Allow-Origin: https://' . $url['host']);
         header('Access-Control-Allow-Methods: GET, POST');
         header('Access-Control-Allow-Headers: Content-Type');
 
