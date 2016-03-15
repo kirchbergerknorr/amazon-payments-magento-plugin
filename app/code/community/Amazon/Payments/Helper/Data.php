@@ -179,7 +179,9 @@ class Amazon_Payments_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function showModal()
     {
-        return (Mage::app()->getRequest()->getParam('amazon_modal') && $this->getConfig()->isCheckoutModal());
+        return (Mage::app()->getRequest()->getParam('amazon_modal')
+            && !Mage::app()->getRequest()->getParam('ajax')
+            && $this->getConfig()->isCheckoutModal());
     }
 
     /**
