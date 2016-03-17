@@ -220,7 +220,7 @@ class Amazon_Payments_Model_SimplePath
         return array(
             'locale' => Mage::getStoreConfig('general/country/default'),
             'spId' => self::PARAM_SP_ID,
-            'allowedLoginDomains[]' => array(array_unique($urls)),
+            'allowedLoginDomains[]' => array_unique($urls),
             'spSoftwareVersion' => Mage::getVersion(),
             'spAmazonPluginVersion' => Mage::getConfig()->getModuleConfig("Amazon_Payments")->version,
         );
