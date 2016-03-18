@@ -109,6 +109,26 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
     }
 
     /**
+     * Widget Address select action
+     */
+    public function addressSelectAction()
+    {
+        if ($this->_expireAjax()) {
+            return;
+        }
+
+        $this->_saveShipping();
+        $this->_getCheckout()->getQuote()->collectTotals()->save();
+
+        $result = array(
+            'shipping_method' => $this->_getBlockHtml('checkout_amazon_payments_shippingmethod'),
+            'review'          => $this->_getBlockHtml('checkout_amazon_payments_review'),
+        );
+
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+    }
+
+    /**
      * Shipping method action
      */
     public function shippingMethodAction()
@@ -321,6 +341,21 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
     protected function _getReviewHtml()
     {
         return $this->getLayout()->getBlock('root')->toHtml();
+    }
+
+    /**
+     * Render block HTML
+     *
+     * @string $node block name
+     */
+    protected function _getBlockHtml($node)
+    {
+        $layout = $this->getLayout();
+        $update = $layout->getUpdate();
+        $update->load($node);
+        $layout->generateXml();
+        $layout->generateBlocks();
+        return $layout->getOutput();
     }
 
 }

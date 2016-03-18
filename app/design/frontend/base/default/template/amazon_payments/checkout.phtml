@@ -92,22 +92,41 @@ AmazonPaymentsMageCheckout.prototype = {
         this.opts = opts;
         this.hasPayment = false;
         this.hasReviewLoader = false;
-        //this.setShippingMethod();
     },
 
-    // Dynamically load shipping method HTML
-    setShippingMethod: function() {
+    // Dynamically load shipping method and review HTML
+    // (Widget callback)
+    setAddress: function() {
         if (this.opts.shippingMethod) {
             this.restrictPlaceOrder(true);
 
-            var request = new Ajax.Request(this.opts.shippingMethod.url, {
+            var request = new Ajax.Request(this.opts.addressSelect.url, {
                 method: 'post',
                 parameters: { "amazon_order_reference_id": this.amazonOrderReferenceId },
-                onSuccess: this.renderShippingMethod.bindAsEventListener(this, this.opts.shippingMethod.id)
+                onSuccess: this.onSaveAddress.bindAsEventListener(this)
             });
         }
         else {
             this.setReview();
+        }
+    },
+
+    // Render shipping method and review at same time
+    onSaveAddress: function(transport) {
+        try{
+            response = eval('(' + transport.responseText + ')');
+        }
+        catch (e) {
+            response = {};
+        }
+
+        if (response.review) {
+            transport.hasReview = true;
+            transport.responseText = response.shipping_method;
+            this.renderShippingMethod(transport, this.opts.shippingMethod.id);
+
+            transport.responseText = response.review;
+            this.renderReview(transport, this.opts.review.id);
         }
     },
 
@@ -143,9 +162,12 @@ AmazonPaymentsMageCheckout.prototype = {
 
         $$('input[type="radio"][name="shipping_method"]').each(function(el){
             Event.observe(el, 'change', this.setReview.bindAsEventListener(this));
-       }, this);
+        }, this);
 
-       this.setReview();
+        if (!transport.hasReview) {
+            this.setReview();
+        }
+
     },
 
     renderReview: function(transport, id) {
@@ -157,28 +179,28 @@ AmazonPaymentsMageCheckout.prototype = {
     },
 
     saveOrder: function() {
-      var params = {};
+        var params = {};
 
-      if (this.agreementsForm) {
-          params += '&'+Form.serialize(this.agreementsForm);
-      }
-      params.save = true;
+        if (this.agreementsForm) {
+            params += '&'+Form.serialize(this.agreementsForm);
+        }
+        params.save = true;
 
-      params.amazon_order_reference_id = this.amazonOrderReferenceId;
+        params.amazon_order_reference_id = this.amazonOrderReferenceId;
 
-      var sandbox = $('sandbox');
-      if (sandbox) {
-          params.sandbox = sandbox.getValue();
-      }
+        var sandbox = $('sandbox');
+        if (sandbox) {
+            params.sandbox = sandbox.getValue();
+        }
 
-      this.restrictPlaceOrder(true);
-      this.restrictWidgets(true);
+        this.restrictPlaceOrder(true);
+        this.restrictWidgets(true);
 
-      var request = new Ajax.Request(this.opts.save.url, {
-          method: 'post',
-          parameters: params,
-          onSuccess: this.onSaveOrder.bindAsEventListener(this)
-      });
+        var request = new Ajax.Request(this.opts.save.url, {
+            method: 'post',
+            parameters: params,
+            onSuccess: this.onSaveOrder.bindAsEventListener(this)
+        });
     },
 
     onSaveOrder: function(transport) {
@@ -307,6 +329,9 @@ var opts = {
       id: "checkout-review-load",
       url: "<?php echo $this->getUrl('checkout/amazon_payments/review') ?>"
   },
+  addressSelect : {
+      url: "<?php echo $this->getUrl('checkout/amazon_payments/addressSelect') ?>"
+  },
   save : {
       url: "<?php echo $this->getUrl('checkout/amazon_payments/saveOrder') ?>"
   }
@@ -346,7 +371,7 @@ new OffAmazonPayments.Widgets.AddressBook({
       amazonPaymentsMageCheckout.amazonOrderReferenceId = orderReference.getAmazonOrderReferenceId();
   },
   onAddressSelect: function(orderReference) {
-      amazonPaymentsMageCheckout.setShippingMethod();
+      amazonPaymentsMageCheckout.setAddress();
       amazonPaymentsMageCheckout.hasPayment = false;
   },
   design: {
