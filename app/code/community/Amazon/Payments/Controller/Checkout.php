@@ -28,6 +28,12 @@ abstract class Amazon_Payments_Controller_Checkout extends Mage_Checkout_Control
     {
         parent::preDispatch();
 
+        // User clicked "Cancel" on Amazon Login consent form
+        if ($this->getRequest()->getParam('error') == 'access_denied') {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
         $this->_amazonOrderReferenceId = htmlentities($this->getRequest()->getParam('amazon_order_reference_id'));
 
         if (!$this->_amazonOrderReferenceId) {
