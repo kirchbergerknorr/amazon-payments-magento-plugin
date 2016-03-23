@@ -239,6 +239,17 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
                 }
             }
 
+            // Validate shipping method
+            if (!$this->_getCheckout()->getQuote()->isVirtual()) {
+                $address = $this->_getCheckout()->getQuote()->getShippingAddress();
+                $method  = $address->getShippingMethod();
+                $rate    = $address->getShippingRateByCode($method);
+                if (!$this->_getCheckout()->getQuote()->isVirtual() && (!$method || !$rate)) {
+                    Mage::throwException(Mage::helper('sales')->__('Please specify a shipping method.'));
+                }
+            }
+
+
             $additional_information = array(
                 'order_reference' => $this->getAmazonOrderReferenceId()
             );
