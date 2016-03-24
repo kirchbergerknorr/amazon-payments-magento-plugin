@@ -177,6 +177,15 @@ class Amazon_Payments_Model_SimplePath
             $config->saveConfig($amazonConfig::CONFIG_XML_PATH_ACCESS_KEY, $values->access_key, 'default', 0);
             $config->saveConfig($amazonConfig::CONFIG_XML_PATH_ACCESS_SECRET, Mage::helper('core')->encrypt($values->secret_key), 'default', 0);
 
+            // Auto-enable
+            if (!Mage::getStoreConfig($amazonConfig::CONFIG_XML_PATH_ENABLED)) {
+                $enableMessage = Mage::helper('amazon_payments')->__("Login and Pay with Amazon is now enabled.");
+                $config->saveConfig($amazonConfig::CONFIG_XML_PATH_ENABLED, true, 'default', 0);
+                Mage::getSingleton('adminhtml/session')
+                    ->addSuccess($enableMessage)
+                    ->setEnableMessage($enableMessage);
+            }
+
             return true;
         }
     }
