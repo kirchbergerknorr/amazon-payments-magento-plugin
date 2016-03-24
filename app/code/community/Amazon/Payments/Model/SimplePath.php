@@ -10,8 +10,8 @@
 
 class Amazon_Payments_Model_SimplePath
 {
-    const API_ENDPOINT_DOWNLOAD_KEYS = 'https://spow-na-prod.amazon.com/workflow';
-    const API_ENDPOINT_GET_PUBLICKEY = 'https://spow-na-prod.amazon.com/getpublickey';
+    const API_ENDPOINT_DOWNLOAD_KEYS = 'https://payments.amazon.com/register';
+    const API_ENDPOINT_GET_PUBLICKEY = 'https://payments.amazon.com/register/getpublickey';
 
     const PARAM_SP_ID = 'A2K7HE1S3M5XJ';
 
