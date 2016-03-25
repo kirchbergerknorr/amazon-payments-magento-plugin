@@ -28,6 +28,7 @@ class Amazon_Payments_Model_Config
     const CONFIG_XML_PATH_ORDER_STATUS   = 'payment/amazon_payments/order_status';
     const CONFIG_XML_PATH_SHOW_PAY_CART  = 'payment/amazon_payments/show_pay_cart';
     const CONFIG_XML_PATH_STORE_NAME     = 'payment/amazon_payments/store_name';
+    const CONFIG_XML_PATH_SOFT_DESC      = 'payment/amazon_payments/soft_descriptor';
     const CONFIG_XML_PATH_SECURE_CART    = 'payment/amazon_payments/secure_cart';
     const CONFIG_XML_PATH_IS_ASYNC       = 'payment/amazon_payments/is_async';
     const CONFIG_XML_PATH_RESTRICTED_IPS = 'payment/amazon_payments/restricted_ips';
@@ -218,6 +219,22 @@ class Amazon_Payments_Model_Config
         else {
             return Mage::app()->getStore()->getName();
         }
+    }
+
+    /**
+     * Get customzied soft descriptor, if used
+     *
+     * @param   store $store
+     * @return  string
+     */
+    public function getSoftDesc($store = null)
+    {
+        $softDesc = $this->_getStoreConfig(self::CONFIG_XML_PATH_SOFT_DESC, $store);
+        if (!$softDesc) {
+            $softDesc = Mage::app()->getStore()->getName();
+        }
+
+        return substr($softDesc, 0, 16); // 16 chars max
     }
 
     /**

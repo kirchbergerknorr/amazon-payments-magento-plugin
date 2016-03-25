@@ -56,7 +56,7 @@ class Amazon_Payments_Model_PaymentMethod extends Mage_Payment_Model_Method_Abst
      */
     protected function _getSoftDescriptor()
     {
-        return substr($this->_getApi()->getConfig()->getStoreName(), 0, 16); // 16 chars max
+        return $this->_getApi()->getConfig()->getSoftDesc();
     }
 
     /**

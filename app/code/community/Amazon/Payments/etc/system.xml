@@ -391,6 +391,17 @@
                       <show_in_store>1</show_in_store>
                       <config_path>payment/amazon_payments/store_name</config_path>
                   </store_name>
+                  <soft_descriptor translate="label">
+                      <label>Soft Descriptor</label>
+                      <frontend_type>text</frontend_type>
+                      <comment><![CDATA[Billing descriptor to display on credit card statements. Limited to 16 characters. If left blank, current Magento store name will be used.]]></comment>
+                      <validate>validate-length maximum-length-16</validate>
+                      <sort_order>160</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>1</show_in_website>
+                      <show_in_store>1</show_in_store>
+                      <config_path>payment/amazon_payments/soft_descriptor</config_path>
+                  </soft_descriptor>
 
                   <ap_advanced type="group" translate="label">
                       <label>Advanced Transaction Options</label>
