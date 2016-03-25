@@ -29,11 +29,9 @@ class Amazon_Payments_SimplepathController extends Mage_Core_Controller_Front_Ac
         try {
             if ($payloadJson) {
                 $_simplePath = Mage::getModel('amazon_payments/simplePath');
-                $json = $_simplePath->decryptPayload($payloadJson);
+                $json = $_simplePath->decryptPayload($payloadJson, false);
 
                 if ($json) {
-                    //$this->_redirectUrl(Mage::getModel('amazon_payments/simplePath')->getSimplepathUrl());
-
                     $this->getResponse()->setBody(Zend_Json::encode(array('result' => 'success')));
                 }
             } else {

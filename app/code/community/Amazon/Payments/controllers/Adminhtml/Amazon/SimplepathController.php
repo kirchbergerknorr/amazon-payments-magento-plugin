@@ -24,9 +24,15 @@ class Amazon_Payments_Adminhtml_Amazon_SimplepathController extends Mage_Adminht
      */
     public function pollAction()
     {
-        $hasKeys = Mage::getSingleton('amazon_payments/config')->getSellerId() ? 1 : 0;
+        // Keypair is destroyed when credentials are saved
+        $shouldRefresh = !Mage::getStoreConfig(Amazon_Payments_Model_SimplePath::CONFIG_XML_PATH_PUBLIC_KEY, 0) ? 1 : 0;
+
+        if ($shouldRefresh) {
+            Mage::getModel('amazon_payments/simplePath')->autoEnable();
+        }
+
         $this->getResponse()->setHeader('Content-type', 'application/json');
-        $this->getResponse()->setBody($hasKeys);
+        $this->getResponse()->setBody($shouldRefresh);
     }
 
     /**

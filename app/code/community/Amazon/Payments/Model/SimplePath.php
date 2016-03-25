@@ -87,7 +87,7 @@ class Amazon_Payments_Model_SimplePath
      *
      * @param string $payloadJson
      */
-    public function decryptPayload($payloadJson)
+    public function decryptPayload($payloadJson, $autoEnable = true)
     {
         try {
           $payload = Zend_Json::decode($payloadJson, Zend_Json::TYPE_OBJECT);
@@ -95,7 +95,7 @@ class Amazon_Payments_Model_SimplePath
 
           // Unencrypted?
           if (isset($payload->merchant_id, $payload->access_key, $payload->secret_key)) {
-            return $this->saveToConfig($payloadJson);
+              return $this->saveToConfig($payloadJson, $autoEnable);
           }
 
           // Validate JSON
@@ -141,7 +141,7 @@ class Amazon_Payments_Model_SimplePath
               $finalPayload = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $finalPayload);
 
               if (Zend_Json::decode($finalPayload)) {
-                  $this->saveToConfig($finalPayload);
+                  $this->saveToConfig($finalPayload, $autoEnable);
                   $this->destroyKeys();
                   return $finalPayload;
               }
@@ -151,6 +151,7 @@ class Amazon_Payments_Model_SimplePath
           }
 
         } catch (Exception $e) {
+            Mage::logException($e);
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
 
@@ -162,7 +163,7 @@ class Amazon_Payments_Model_SimplePath
      *
      * @param string $json
      */
-    public function saveToConfig($json)
+    public function saveToConfig($json, $autoEnable = true)
     {
         if ($values = Zend_Json::decode($json, Zend_Json::TYPE_OBJECT)) {
             foreach ($values as $key => $value) {
@@ -177,16 +178,30 @@ class Amazon_Payments_Model_SimplePath
             $config->saveConfig($amazonConfig::CONFIG_XML_PATH_ACCESS_KEY, $values->access_key, 'default', 0);
             $config->saveConfig($amazonConfig::CONFIG_XML_PATH_ACCESS_SECRET, Mage::helper('core')->encrypt($values->secret_key), 'default', 0);
 
-            // Auto-enable
-            if (!Mage::getStoreConfig($amazonConfig::CONFIG_XML_PATH_ENABLED)) {
-                $enableMessage = Mage::helper('amazon_payments')->__("Login and Pay with Amazon is now enabled.");
-                $config->saveConfig($amazonConfig::CONFIG_XML_PATH_ENABLED, true, 'default', 0);
-                Mage::getSingleton('adminhtml/session')
-                    ->addSuccess($enableMessage)
-                    ->setEnableMessage($enableMessage);
+
+            if ($autoEnable) {
+                $this->autoEnable();
             }
 
             return true;
+        }
+    }
+
+    /**
+     * Auto-enable payment method
+     */
+    public function autoEnable()
+    {
+        $enableMessage = Mage::helper('amazon_payments')->__("Login and Pay with Amazon is now enabled.");
+
+        $config = Mage::getModel('core/config');
+        $amazonConfig = Mage::getSingleton('amazon_payments/config');
+
+        if (!Mage::getStoreConfig($amazonConfig::CONFIG_XML_PATH_ENABLED)) {
+            $config->saveConfig($amazonConfig::CONFIG_XML_PATH_ENABLED, true, 'default', 0);
+            Mage::getSingleton('adminhtml/session')
+                ->addSuccess($enableMessage)
+                ->setEnableMessage($enableMessage);
         }
     }
 
