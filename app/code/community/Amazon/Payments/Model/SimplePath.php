@@ -195,7 +195,10 @@ class Amazon_Payments_Model_SimplePath
      */
     public function getListenerUrl()
     {
-        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true) . 'amazon_payments/simplepath';
+        $url = Mage::getUrl('amazon_payments/simplepath', array('_store' => 1, '_forced_secure' => true));
+        // Add index.php
+        $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, true);
+        return str_replace($baseUrl, $baseUrl . 'index.php/', $url);
     }
 
     /**
