@@ -17,6 +17,7 @@
         <amazon_payments translate="label">
           <label>Login and Pay with Amazon</label>
           <sort_order>100</sort_order>
+          <expanded>1</expanded>
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
@@ -91,6 +92,7 @@
                 <label>Credentials</label>
                 <show_in_default>1</show_in_default>
                 <show_in_website>1</show_in_website>
+                <expanded>1</expanded>
                 <frontend_model>adminhtml/system_config_form_fieldset</frontend_model>
                 <sort_order>10</sort_order>
                 <fields>
