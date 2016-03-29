@@ -132,7 +132,7 @@ class Amazon_Payments_Model_SimplePath
           $payloadVerifyJson = Zend_Json::encode($payloadVerify);
 
           // Verify signature using Amazon publickey and JSON paylaod
-          if ($amazonPublickey && openssl_verify($payloadVerifyJson, base64_decode($payload->signature), $this->key2pem($amazonPublickey), OPENSSL_ALGO_SHA256)) {
+          if ($amazonPublickey && openssl_verify($payloadVerifyJson, base64_decode($payload->signature), $this->key2pem($amazonPublickey), 'SHA256')) {
 
               // Decrypt Amazon key using own private key
               $decryptedKey = null;
