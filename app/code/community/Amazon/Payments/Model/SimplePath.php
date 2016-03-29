@@ -156,7 +156,10 @@ class Amazon_Payments_Model_SimplePath
 
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('amazon_payments')->__($e->getMessage()));
+
+            $link = 'https://payments.amazon.com/help/202024240';
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('amazon_payments')->__("If you're experiencing consistant errors with transfering keys, click <a href=\"%s\" target=\"_blank\">Manual Transfer Instructions</a> to learn more.", $link));
         }
 
         return false;
