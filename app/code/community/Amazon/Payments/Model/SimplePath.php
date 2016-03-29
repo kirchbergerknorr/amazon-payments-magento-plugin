@@ -26,9 +26,11 @@ class Amazon_Payments_Model_SimplePath
         $rsa = new Zend_Crypt_Rsa;
         $keys = $rsa->generateKeys(array('private_key_bits' => 2048, 'hashAlgorithm' => 'sha1'));
 
-        $config = Mage::getModel('core/config');
-        $config->saveConfig(self::CONFIG_XML_PATH_PUBLIC_KEY, $keys['publicKey'], 'default', 0);
-        $config->saveConfig(self::CONFIG_XML_PATH_PRIVATE_KEY, Mage::helper('core')->encrypt($keys['privateKey']), 'default', 0);
+        Mage::getConfig()
+            ->saveConfig(self::CONFIG_XML_PATH_PUBLIC_KEY, $keys['publicKey'], 'default', 0)
+            ->saveConfig(self::CONFIG_XML_PATH_PRIVATE_KEY, Mage::helper('core')->encrypt($keys['privateKey']), 'default', 0);
+
+        Mage::app()->cleanCache();
 
         return $keys;
     }
@@ -38,9 +40,11 @@ class Amazon_Payments_Model_SimplePath
      */
     public function destroyKeys()
     {
-        $config = Mage::getModel('core/config');
-        $config->deleteConfig(self::CONFIG_XML_PATH_PUBLIC_KEY, 'default', 0);
-        $config->deleteConfig(self::CONFIG_XML_PATH_PRIVATE_KEY, 'default', 0);
+        Mage::getConfig()
+            ->deleteConfig(self::CONFIG_XML_PATH_PUBLIC_KEY, 'default', 0)
+            ->deleteConfig(self::CONFIG_XML_PATH_PRIVATE_KEY, 'default', 0);
+
+        Mage::app()->cleanCache();
     }
 
     /**
@@ -183,6 +187,8 @@ class Amazon_Payments_Model_SimplePath
                 $this->autoEnable();
             }
 
+            Mage::app()->cleanCache();
+
             return true;
         }
     }
@@ -222,7 +228,7 @@ class Amazon_Payments_Model_SimplePath
     public function getSimplepathUrl()
     {
         return self::API_ENDPOINT_DOWNLOAD_KEYS . '?returnUrl=' . $this->getListenerUrl() .
-						'&pub_key=' . urlencode($this->getPublicKey(false, true)) .
+						'&pub_key=' . urlencode($this->getPublicKey()) .
 						'#event/fromSP';
     }
 
