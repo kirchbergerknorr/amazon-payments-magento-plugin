@@ -85,7 +85,7 @@ class Amazon_Payments_Block_Script extends Mage_Core_Block_Template
      */
     public function isPopup()
     {
-        return Mage::helper('amazon_login/data')->isPopup();
+        return Mage::helper('amazon_payments/data')->isPopup();
     }
 
 
