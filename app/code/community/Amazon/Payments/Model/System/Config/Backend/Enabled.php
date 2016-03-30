@@ -96,8 +96,17 @@ class Amazon_Payments_Model_System_Config_Backend_Enabled extends Mage_Core_Mode
     {
         $version = Mage::getConfig()->getModuleConfig("Amazon_Payments")->version;
 
+        // @see Amazon_Payments_Model_SimplePath->saveToConfig()
+        $enabledMessage = Mage::getSingleton('adminhtml/session')->getEnableMessage();
+        if ($enabledMessage) {
+            $enabledMessage = '<div style="color:red">' . $enabledMessage . '</div>';
+            Mage::getSingleton('adminhtml/session')->unsEnableMessage();
+        }
+
         // SimplePath
         return "v$version
+
+        $enabledMessage
 
         <!-- SimplePath -->
         <script>

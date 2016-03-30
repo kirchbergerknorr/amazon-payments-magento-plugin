@@ -10,8 +10,12 @@
 <config>
     <modules>
         <Amazon_Payments>
-            <version>1.3.2</version>
+            <version>1.4.0</version>
         </Amazon_Payments>
+        <Amazon_Login>
+            <!-- Disable legacy module -->
+            <active>false</active>
+        </Amazon_Login>
     </modules>
     <global>
         <blocks>
@@ -196,7 +200,7 @@
     <default>
         <payment>
             <amazon_payments>
-                <title>Amazon Payments</title>
+                <title>Login and Pay with Amazon</title>
                 <model>amazon_payments/paymentMethod</model>
                 <payment_action>authorize_capture</payment_action>
                 <checkout_page>amazon</checkout_page>

@@ -16,7 +16,9 @@ class Amazon_Payments_SimplepathController extends Mage_Core_Controller_Front_Ac
      */
     public function indexAction()
     {
-        header('Access-Control-Allow-Origin: https://payments.amazon.com');
+        $url = parse_url(Amazon_Payments_Model_SimplePath::API_ENDPOINT_DOWNLOAD_KEYS);
+
+        header('Access-Control-Allow-Origin: https://' . $url['host']);
         header('Access-Control-Allow-Methods: GET, POST');
         header('Access-Control-Allow-Headers: Content-Type');
 
@@ -27,11 +29,9 @@ class Amazon_Payments_SimplepathController extends Mage_Core_Controller_Front_Ac
         try {
             if ($payloadJson) {
                 $_simplePath = Mage::getModel('amazon_payments/simplePath');
-                $json = $_simplePath->decryptPayload($payloadJson);
+                $json = $_simplePath->decryptPayload($payloadJson, false);
 
                 if ($json) {
-                    //$this->_redirectUrl(Mage::getModel('amazon_payments/simplePath')->getSimplepathUrl());
-
                     $this->getResponse()->setBody(Zend_Json::encode(array('result' => 'success')));
                 }
             } else {

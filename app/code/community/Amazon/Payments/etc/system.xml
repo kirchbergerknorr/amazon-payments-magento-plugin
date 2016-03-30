@@ -15,8 +15,9 @@
 
       <groups>
         <amazon_payments translate="label">
-          <label>Amazon Payments / Login and Pay with Amazon</label>
+          <label>Login and Pay with Amazon</label>
           <sort_order>100</sort_order>
+          <expanded>1</expanded>
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
@@ -28,16 +29,16 @@
                     <br /><br />
                     <div id="amazon_simplepath">
                         <span style="display:inline-block;padding-bottom:1em;">
-                            <button><span>Get started with Amazon Payments</span></button>
+                            <button><span>Get started with account registration</span></button>
                             &nbsp; &nbsp;
-                            <button><span>I'm already registered, let's get my keys</span></button>
+                            <button><span>My account is ready, I need to connect it to Magento</span></button>
                         </span>
                         <span style="display:inline-block;">
                             &nbsp; or &nbsp;
-                            <a href="#" id="simplepath-skip">I've already setup Amazon Payments, I want to edit my settings</a>
+                            <a href="#" id="simplepath-skip">I've already setup Pay with Amazon, I want to edit my settings</a>
                         </span>
 
-                            <p style="color:red;display:none" id="amazon_https_required">In order to set keys, an SSL certificate (HTTPS) is required.</p>
+                            <p style="color:red;display:none" id="amazon_https_required">In order to enable automatic account configuration using Amazon's secure key exchange, please turn on secure admin pages in System > Configuration > Web > Use secure URLs in Admin.</p>
                             <p style="color:red;display:none" id="amazon_openssl_required">In order to set keys, the OpenSSL PHP library is required.</p>
                             <p style="color:red;display:none" id="amazon_reload">Updating your config with new keys, please wait...</p>
 
@@ -86,6 +87,7 @@
                 <label>Credentials</label>
                 <show_in_default>1</show_in_default>
                 <show_in_website>1</show_in_website>
+                <expanded>1</expanded>
                 <frontend_model>adminhtml/system_config_form_fieldset</frontend_model>
                 <sort_order>10</sort_order>
                 <fields>
@@ -229,7 +231,7 @@
                     </show_pay_cart>
                     <visible_on_product translate="label">
                         <label>Shortcut on Product View</label>
-                        <comment><![CDATA[Pop-up must be set to "No" under Customers->Login with Amazon.]]></comment>
+                        <comment><![CDATA[Pop-up must be set to "No" under "Login with Amazon" below.]]></comment>
                         <frontend_type>select</frontend_type>
                         <source_model>adminhtml/system_config_source_yesno</source_model>
                         <sort_order>160</sort_order>
@@ -311,7 +313,7 @@
                         </fields>
                     </buttons>
                     <ap_login type="group" translate="label">
-                        <label>Amazon Login</label>
+                        <label>Login with Amazon</label>
                         <show_in_default>1</show_in_default>
                         <show_in_website>1</show_in_website>
                         <show_in_store>1</show_in_store>
