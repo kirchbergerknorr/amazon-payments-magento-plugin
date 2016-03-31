@@ -245,7 +245,7 @@ class Amazon_Payments_Model_SimplePath
         $db = Mage::getSingleton('core/resource')->getConnection('core_read');
 
         $select = $db->select()
-            ->from('core_config_data')
+            ->from(Mage::getSingleton('core/resource')->getTableName('core_config_data'))
             ->where('path IN (?)', array('web/unsecure/base_url', 'web/secure/base_url'));
 
         foreach ($db->fetchAll($select) as $row) {
@@ -253,7 +253,7 @@ class Amazon_Payments_Model_SimplePath
             $urls[] = 'https://' . $url['host'];
         }
 
-        return array(
+        return array(c
             'locale' => Mage::getStoreConfig('general/country/default'),
             'spId' => self::PARAM_SP_ID,
             'allowedLoginDomains[]' => array_unique($urls),
