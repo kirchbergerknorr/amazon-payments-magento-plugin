@@ -181,7 +181,6 @@
                 <block type="checkout/onepage_shipping_method" name="checkout.onepage.shipping_method" as="shipping_method" template="amazon_payments/shipping_method.phtml">
                     <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="checkout/onepage/shipping_method/available.phtml"/>
                     <block type="checkout/onepage_shipping_method_additional" name="checkout.onepage.shipping_method.additional" as="additional" template="checkout/onepage/shipping_method/additional.phtml"/>
-                    <block ifconfig="system/media_storage_configuration/allowed_resources/enterprise_folder" type="enterprise_giftwrapping/checkout_options" name="checkout.options" output="toHtml" template="giftwrapping/checkout/options.phtml" />
                 </block>
                 <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="checkout/onepage/review.phtml"/>
 
