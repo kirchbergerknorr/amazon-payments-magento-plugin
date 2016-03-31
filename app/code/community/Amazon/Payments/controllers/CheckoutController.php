@@ -144,6 +144,30 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
     }
 
     /**
+     * Additional options action (e.g. gift options)
+     */
+    public function additionalAction()
+    {
+        if ($this->_expireAjax()) {
+            return;
+        }
+
+        if ($this->getRequest()->isPost()) {
+            Mage::dispatchEvent(
+                'checkout_controller_onepage_save_shipping_method',
+                array(
+                    'request' => $this->getRequest(),
+                    'quote'   => $this->_getCheckout()->getQuote()));
+
+            $this->_getCheckout()->getQuote()->collectTotals()->save();
+
+        }
+
+        $this->getResponse()->setBody($this->_getBlockHtml('checkout_amazon_payments_review'));
+    }
+
+
+    /**
      * Review page action
      */
     public function reviewAction()

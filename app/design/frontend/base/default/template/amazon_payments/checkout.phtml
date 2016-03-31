@@ -130,6 +130,17 @@ AmazonPaymentsMageCheckout.prototype = {
         }
     },
 
+    // Set additional options (e.g. gift message or EE gift wrapping)
+    setAdditional: function(parameters) {
+        this.restrictPlaceOrder(true);
+
+        var request = new Ajax.Request(this.opts.additional.url, {
+            method: 'post',
+            parameters: parameters,
+            onSuccess: this.renderReview.bindAsEventListener(this, this.opts.review.id)
+        });
+    },
+
     // Dynamically load review HTML
     setReview: function() {
         var btnSubmit = $$(".button.btn-checkout");
@@ -325,6 +336,9 @@ var opts = {
       url: "<?php echo $this->getUrl('checkout/amazon_payments/shippingMethod') ?>"
   },
   <?php endif; ?>
+  additional : {
+      url: "<?php echo $this->getUrl('checkout/amazon_payments/additional') ?>"
+  },
   review : {
       id: "checkout-review-load",
       url: "<?php echo $this->getUrl('checkout/amazon_payments/review') ?>"
@@ -359,6 +373,42 @@ var restrictInterval = setInterval(function() {
         }
     }
 }, 100);
+
+// Additional form elements such as Gift Options
+document.observe('dom:loaded', function(){
+    var addEls = $('checkout-shipping-method-additional-load').select('input', 'select', 'textarea');
+
+    addEls.each(function(elChange) {
+      //console.log(el);
+
+        Event.observe(elChange, 'change', function() {
+            var params = {};
+
+            addEls.each(function(el) {
+                if (el.type == "checkbox") {
+                    if (el.checked) {
+                        params[el.name] = el.value;
+                    }
+                }
+                else if (el.options && (typeof params[el.name] == "undefined" || !params[el.name])) {
+
+                    params[el.name] = el.options[el.selectedIndex].value;
+
+                }
+                else if (!params[el.name]) {
+                    params[el.name] = el.value;
+                }
+            });
+            console.log(params);
+
+            //var value = el.value;
+
+            amazonPaymentsMageCheckout.setAdditional(params)
+
+        });
+    });
+});
+
 </script>
 
 
