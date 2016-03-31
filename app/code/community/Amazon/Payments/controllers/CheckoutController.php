@@ -43,6 +43,14 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
             $this->getLayout()->getBlock('root')->setTemplate('page/popup.phtml');
         }
 
+        // Add EE gift wrapping options
+        if (Mage::helper('core')->isModuleEnabled('Enterprise_GiftWrapping')) {
+            $block = $this->getLayout()
+                ->createBlock('enterprise_giftwrapping/checkout_options', 'checkout.options')
+                ->setTemplate('giftwrapping/checkout/options.phtml');
+            $this->getLayout()->getBlock('content')->append($block);
+        }
+
         $this->getLayout()->getBlock('head')->setTitle($this->__('Checkout'));
         $this->renderLayout();
     }
