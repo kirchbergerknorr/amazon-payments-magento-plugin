@@ -143,8 +143,6 @@ AmazonPaymentsMageCheckout.prototype = {
 
     // Dynamically load review HTML
     setReview: function() {
-        var btnSubmit = $$(".button.btn-checkout");
-
         var shippingMethod = $$('input:checked[type=radio][name=shipping_method]')[0];
 
         if (shippingMethod != undefined) {
@@ -183,7 +181,14 @@ AmazonPaymentsMageCheckout.prototype = {
 
     renderReview: function(transport, id) {
         $(id).update(transport.responseText);
-        $$(".button.btn-checkout").invoke('writeAttribute','onclick', 'amazonPaymentsMageCheckout.saveOrder()');
+
+        var btnSubmit = $$(".button.btn-checkout");
+
+        if (!btnSubmit.length) {
+            btnSubmit = $$('button[onclick*="review.save()"]');
+        }
+
+        btnSubmit.invoke('writeAttribute','onclick', 'amazonPaymentsMageCheckout.saveOrder()');
         this.agreementsForm = $('checkout-agreements')
         $("amz-review-loader").hide();
         this.restrictPlaceOrder(false);
