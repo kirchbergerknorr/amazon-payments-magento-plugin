@@ -385,6 +385,9 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
      */
     protected function _getBlockHtml($node)
     {
+        $cache = Mage::app()->getCacheInstance();
+        $cache->banUse('layout');
+
         $layout = $this->getLayout();
         $update = $layout->getUpdate();
         $update->load($node);
