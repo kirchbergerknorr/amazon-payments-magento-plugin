@@ -17,11 +17,11 @@ $db = $installer->getConnection();
 
 // Encrypt keys
 $select = $db->select()
-    ->from('core_config_data')
+    ->from(Mage::getSingleton('core/resource')->getTableName('core_config_data'))
     ->where('path IN (?)', array('payment/amazon_payments/access_secret', 'payment/amazon_payments/client_secret'));
 
 foreach ($db->fetchAll($select) as $row) {
-    $db->update('core_config_data', array('value' => Mage::helper('core')->encrypt(trim($row['value']))), 'config_id=' . $row['config_id']);
+    $db->update(Mage::getSingleton('core/resource')->getTableName('core_config_data'), array('value' => Mage::helper('core')->encrypt(trim($row['value']))), 'config_id=' . $row['config_id']);
 }
 
 $installer->endSetup();
