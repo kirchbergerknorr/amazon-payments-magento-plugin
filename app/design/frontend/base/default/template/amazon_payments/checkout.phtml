@@ -92,6 +92,7 @@ AmazonPaymentsMageCheckout.prototype = {
         this.opts = opts;
         this.hasPayment = false;
         this.hasReviewLoader = false;
+        this.hasHiddenShippingMethod = false;
     },
 
     // Dynamically load shipping method and review HTML
@@ -169,9 +170,18 @@ AmazonPaymentsMageCheckout.prototype = {
     renderShippingMethod: function(transport, id) {
         $(id).update(transport.responseText);
 
-        $$('input[type="radio"][name="shipping_method"]').each(function(el){
+        var elShippingMethods = $$('input[type="radio"][name="shipping_method"]');
+
+        elShippingMethods.each(function(el){
             Event.observe(el, 'change', this.setReview.bindAsEventListener(this));
         }, this);
+
+
+        // Set shipping method if only one available and hidden
+        if (elShippingMethods.length == 1 && !this.hasHiddenShippingMethod) {
+            this.hasHiddenShippingMethod = true;
+            this.setReview();
+        }
 
         if (!transport.hasReview) {
             this.setReview();
