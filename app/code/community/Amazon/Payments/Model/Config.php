@@ -20,7 +20,6 @@ class Amazon_Payments_Model_Config
     const CONFIG_XML_PATH_SELLER_ID      = 'payment/amazon_payments/seller_id';
     const CONFIG_XML_PATH_ACCESS_KEY     = 'payment/amazon_payments/access_key';
     const CONFIG_XML_PATH_ACCESS_SECRET  = 'payment/amazon_payments/access_secret';
-    const CONFIG_XML_PATH_REGION         = 'payment/amazon_payments/region';
     const CONFIG_XML_PATH_SANDBOX        = 'payment/amazon_payments/sandbox';
     const CONFIG_XML_PATH_DEBUG          = 'payment/amazon_payments/debug';
     const CONFIG_XML_PATH_CHECKOUT_PAGE  = 'payment/amazon_payments/checkout_page';
@@ -37,6 +36,9 @@ class Amazon_Payments_Model_Config
     const CONFIG_XML_PATH_BUTTON_COLOR   = 'payment/amazon_payments/button_color';
     const CONFIG_XML_PATH_BUTTON_SIZE    = 'payment/amazon_payments/button_size';
     const CONFIG_XML_PATH_BUTTON_BADGE   = 'payment/amazon_payments/button_badge';
+
+    const CONFIG_XML_PATH_REGION         = 'amazon_login/settings/region';
+    const CONFIG_XML_PATH_LANGUAGE       = 'amazon_login/settings/language';
 
     /**
      * Retrieve config value for store by path
@@ -169,6 +171,17 @@ class Amazon_Payments_Model_Config
             $region = 'us';
         }
         return $region;
+    }
+
+    /**
+     * Get language UI
+     *
+     * @param   store $store
+     * @return  string
+     */
+    public function getLanguage($store = null)
+    {
+        return trim($this->_getStoreConfig(self::CONFIG_XML_PATH_LANGUAGE, $store));
     }
 
     /**
@@ -335,5 +348,7 @@ class Amazon_Payments_Model_Config
     {
         return ($this->_getStoreConfig(self::CONFIG_XML_PATH_BUTTON_BADGE, $store));
     }
+
+
 
 }

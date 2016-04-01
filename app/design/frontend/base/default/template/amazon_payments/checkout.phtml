@@ -59,13 +59,13 @@
 
                 <?php if ($this->helper('amazon_payments')->isAmazonSandbox()) : ?>
                 <br />
-                <h3>Authorization Sandbox Simulation:</h3>
+                <h3><?php echo $this->__('Authorization Sandbox Simulation:'); ?></h3>
                 <textarea id="sandbox"></textarea>
-                Example:
+                <?php echo $this->__('Example:') ?>
                 <small>
                  	{"SandboxSimulation": {"State":"Declined", "ReasonCode":"InvalidPaymentMethod"}}
                   <br />
-                  (<a href="https://payments.amazon.com/documentation/lpwa/201749840#201750790" target="_blank">More Info</a>)<br />
+                  (<a href="https://payments.amazon.com/documentation/lpwa/201749840#201750790" target="_blank"><?php echo $this->__('More Info') ?></a>)<br />
                 </small>
 
 

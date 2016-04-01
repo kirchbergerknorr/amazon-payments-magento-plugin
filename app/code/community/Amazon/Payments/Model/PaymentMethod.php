@@ -76,6 +76,39 @@ class Amazon_Payments_Model_PaymentMethod extends Mage_Payment_Model_Method_Abst
     }
 
     /**
+     * Update billing address from authorization request
+     */
+    protected function _updateBilling(Varien_Object $payment, $amazonAuthorizationId)
+    {
+        try {
+            $mageBilling = $payment->getOrder()->getBillingAddress();
+
+            $authorizationDetails = $this->_getApi()->getAuthorizationDetails($amazonAuthorizationId);
+            $billing = $authorizationDetails->getAuthorizationBillingAddress();
+
+            if ($billing) {
+
+                $regionModel = Mage::getModel('directory/region')->loadByCode($billing->getStateOrRegion(), $billing->getCountryCode());
+                $regionId    = $regionModel->getId();
+                $dataBilling = Mage::helper('amazon_payments')->transformAmazonAddressToMagentoAddress($billing);
+                $dataBilling['use_for_shipping'] = false;
+                $dataBilling['region'] = $billing->getStateOrRegion();
+                $dataBilling['region_id'] = $regionId;
+
+                foreach ($dataBilling as $key => $value) {
+                    $mageBilling->setData($key, $value);
+                }
+
+                $mageBilling->implodeStreetAddress()->save();
+            }
+
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
+    }
+
+
+    /**
      * Instantiate state and set it to state object
      *
      * @param string $paymentAction
@@ -184,6 +217,10 @@ class Amazon_Payments_Model_PaymentMethod extends Mage_Payment_Model_Method_Abst
 
                 $payment->addTransaction($transactionType, null, false, $message);
 
+                // Set billing address for non-US countries
+                if ($this->getConfigData('region') && $this->getConfigData('region') != 'us') {
+                    $this->_updateBilling($payment, $result->getAmazonAuthorizationId());
+                }
 
                 break;
 

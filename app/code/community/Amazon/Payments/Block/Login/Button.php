@@ -78,7 +78,14 @@ class Amazon_Payments_Block_Login_Button extends Mage_Core_Block_Template
     public function getButtonType()
     {
          $type = Mage::getSingleton('amazon_payments/config')->getButtonType();
-         return ($type == 'PwA') ? 'LwA' : $type;
+
+         // Change "Pay" buttons to "Login"
+         switch ($type) {
+            case 'PwA': $type = 'LwA'; break;
+            case 'Pay': $type = 'Login'; break;
+         }
+
+         return $type;
     }
 
     /**
@@ -119,6 +126,14 @@ class Amazon_Payments_Block_Login_Button extends Mage_Core_Block_Template
     public function getCheckoutUrl()
     {
         return $this->helper('amazon_payments')->getCheckoutUrl() . 'account/redirect';
+    }
+
+    /**
+     * Get language
+     */
+    public function getLanguage()
+    {
+        return Mage::helper('amazon_payments')->getLanguage();
     }
 
 }
