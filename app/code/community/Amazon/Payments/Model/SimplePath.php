@@ -253,7 +253,7 @@ class Amazon_Payments_Model_SimplePath
             $urls[] = 'https://' . $url['host'];
         }
 
-        return array(c
+        return array(
             'locale' => Mage::getStoreConfig('general/country/default'),
             'spId' => self::PARAM_SP_ID,
             'allowedLoginDomains[]' => array_unique($urls),
