@@ -24,7 +24,7 @@ class Amazon_Payments_Model_SimplePath
     public function generateKeys()
     {
         $rsa = new Zend_Crypt_Rsa;
-        $keys = $rsa->generateKeys(array('private_key_bits' => 2048, 'hashAlgorithm' => 'sha1'));
+        $keys = $rsa->generateKeys(array('private_key_bits' => 2048, 'privateKeyBits' => 2048, 'hashAlgorithm' => 'sha1'));
 
         Mage::getConfig()
             ->saveConfig(self::CONFIG_XML_PATH_PUBLIC_KEY, $keys['publicKey'], 'default', 0)
@@ -57,7 +57,7 @@ class Amazon_Payments_Model_SimplePath
         $publickey = Mage::getStoreConfig(self::CONFIG_XML_PATH_PUBLIC_KEY, 0);
 
         // Generate key pair
-        if (!$publickey || $reset) {
+        if (!$publickey || $reset || strlen($publickey) < 300) {
             $keys = $this->generateKeys();
             $publickey = $keys['publicKey'];
         }
