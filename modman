@@ -12,4 +12,5 @@ lib/MarketplaceWebServiceSellers                                    lib/Marketpl
 lib/OffAmazonPayments                                               lib/OffAmazonPayments
 lib/OffAmazonPaymentsNotifications                                  lib/OffAmazonPaymentsNotifications
 lib/OffAmazonPaymentsService                                        lib/OffAmazonPaymentsService
+skin/adminhtml/default/default/amazonpayments                       skin/adminhtml/default/default/amazonpayments
 skin/frontend/base/default/amazon_payments                          skin/frontend/base/default/amazon_payments
