@@ -189,7 +189,7 @@
                         <show_in_store>1</show_in_store>
                         <config_path>amazon_login/settings/region</config_path>
                     </region>
-                    <language translate="label">
+                    <!--language translate="label">
                         <label>Language</label>
                         <comment><![CDATA[You can chanage the language of the button and widgets here. The default language is your store's locale. EX: US = 'en_US'. More information can be found <a href="https://payments.amazon.co.uk/developer/documentation/lpwa/201749840#201749950" target="_blank" class="amzn-doc-link">here</a>.]]></comment>
                         <frontend_type>text</frontend_type>
@@ -198,7 +198,7 @@
                         <show_in_website>1</show_in_website>
                         <show_in_store>1</show_in_store>
                         <config_path>amazon_login/settings/language</config_path>
-                    </language>
+                    </language-->
                 </fields>
             </ap_region>
             <!-- END EU REGION -->
