@@ -365,4 +365,22 @@ class Amazon_Payments_Helper_Data extends Mage_Core_Helper_Abstract
         return $data;
     }
 
+    /**
+     * Get admin/default store id
+     */
+    public function getAdminStoreId()
+    {
+      if ($code = Mage::getSingleton('adminhtml/config_data')->getStore()) {
+          return Mage::getModel('core/store')->load($code)->getId();
+      }
+      elseif ($code = Mage::getSingleton('adminhtml/config_data')->getWebsite()) {
+          $website_id = Mage::getModel('core/website')->load($code)->getId();
+          return Mage::app()->getWebsite($website_id)->getDefaultStore()->getId();
+      }
+      else
+      {
+          return Mage::app()->getDefaultStoreView()->getId();
+      }
+    }
+
 }
