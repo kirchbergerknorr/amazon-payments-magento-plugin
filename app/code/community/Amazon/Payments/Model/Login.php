@@ -36,8 +36,20 @@ class Amazon_Payments_Model_Login extends Mage_Core_Model_Abstract
 
         $sandbox = $config->isSandbox() ? 'sandbox.' : '';
 
+        switch (Mage::helper('amazon_payments')->getRegion()) {
+            case 'uk':
+              $tld = 'co.uk';
+              break;
+            case 'de':
+              $tld = 'de';
+              break;
+            default:
+              $tld = 'com';
+              break;
+        }
+
         $client = new Zend_Http_Client();
-        $client->setUri("https://api.{$sandbox}amazon.com/$path");
+        $client->setUri("https://api.{$sandbox}amazon.$tld/$path");
         $client->setConfig($this->http_client_config);
         $client->setMethod($postParams ? 'POST' : 'GET');
 
