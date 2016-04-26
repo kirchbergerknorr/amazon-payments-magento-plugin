@@ -14,8 +14,8 @@ class Amazon_Payments_Model_System_Config_Source_Region
     {
         return array(
             array('value'=>'us', 'label'=>Mage::helper('adminhtml')->__('United States')),
-            array('value'=>'uk', 'label'=>Mage::helper('adminhtml')->__('United Kingdom')),
-            array('value'=>'de', 'label'=>Mage::helper('adminhtml')->__('Germany')),
+            //array('value'=>'uk', 'label'=>Mage::helper('adminhtml')->__('United Kingdom')),
+            //array('value'=>'de', 'label'=>Mage::helper('adminhtml')->__('Germany')),
         );
     }
 }
