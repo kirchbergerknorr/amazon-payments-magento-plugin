@@ -108,6 +108,14 @@ abstract class Amazon_Payments_Controller_Checkout extends Mage_Checkout_Control
     }
 
     /**
+     * Check if country is allowed by config
+     */
+    public function isCountryAllowed($country)
+    {
+        return in_array(strtoupper($country), explode(',', Mage::getStoreConfig('general/country/allow')));
+    }
+
+    /**
      * Validate ajax request and redirect on failure
      *
      * @return bool
