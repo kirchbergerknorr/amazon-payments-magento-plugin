@@ -154,7 +154,7 @@
                     </files>
                 </Amazon_Payments>
             </modules>
-        </translate>        
+        </translate>
         <layout>
             <updates>
                 <amazon_payments>
@@ -220,6 +220,7 @@
         </payment>
         <amazon_login>
             <settings>
+                <enabled>1</enabled>
                 <popup>1</popup>
             </settings>
         </amazon_login>

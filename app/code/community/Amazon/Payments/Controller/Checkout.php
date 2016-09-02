@@ -51,7 +51,7 @@ abstract class Amazon_Payments_Controller_Checkout extends Mage_Checkout_Control
             $_amazonLogin = Mage::getModel('amazon_payments/customer');
 
             if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
-                if (!$this->_getConfig()->isGuestCheckout() || !$this->_getOnepage()->getQuote()->isAllowedGuestCheckout()) {
+                if ($this->_getConfig()->isLoginEnabled() || !$this->_getOnepage()->getQuote()->isAllowedGuestCheckout()) {
                     $customer = $_amazonLogin->loginWithToken($token, $this->_checkoutUrl);
                 }
                 // Guest

@@ -72,15 +72,15 @@
 
 
             <enabled translate="label">
-              <label>Enabled</label>
-              <frontend_type>select</frontend_type>
-              <source_model>adminhtml/system_config_source_yesno</source_model>
-              <backend_model>amazon_payments/system_config_backend_enabled</backend_model>
-              <comment><model>amazon_payments/system_config_backend_enabled</model></comment>
-              <sort_order>5</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>0</show_in_store>
+                <label>Enabled</label>
+                <frontend_type>select</frontend_type>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+                <backend_model>amazon_payments/system_config_backend_enabled</backend_model>
+                <comment><model>amazon_payments/system_config_backend_enabled</model></comment>
+                <sort_order>5</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>0</show_in_store>
             </enabled>
 
             <ap_credentials type="group" translate="label">
@@ -320,6 +320,17 @@
                         <show_in_store>1</show_in_store>
                         <sort_order>210</sort_order>
                         <fields>
+                            <enabled translate="label">
+                                <label>Enabled</label>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                                <comment><![CDATA[Display "Login with Amazon" button on account pages and auto-create Magento accounts during checkout.]]></comment>
+                                <sort_order>30</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>0</show_in_store>
+                                <config_path>amazon_login/settings/enabled</config_path>
+                            </enabled>
                             <popup translate="label">
                                 <label>Pop-up</label>
                                 <comment>
