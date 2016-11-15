@@ -27,7 +27,8 @@
             loginOptions = {
                 scope: "profile payments:widget payments:shipping_address<?php print $this->getAdditionalScope(); ?>",
                 response_type: 'token',
-                popup: <?php print $this->isPopup(); ?>
+                popup: <?php print $this->isPopup(); ?>,
+                state: 'shortcut'
             };
 
             authRequest = amazon.Login.authorize (loginOptions, "<?php echo !$this->isPopup() ? $this->getLoginAuthUrl() : $this->getCheckoutUrl(); ?>");
@@ -44,53 +45,83 @@
 
 <script type="text/javascript">
 
-    // OffAmazonPayments.jQuery loaded by Amazon API
+    AmazonConfirmModal = Class.create();
 
-    var productAddToCartFormAmazon =  new VarienForm('product_addtocart_form');
+    AmazonConfirmModal.prototype.show = function(url) {
 
-    productAddToCartFormAmazon.submit = function(e) {
-        if (this.validator.validate()) {
+        this.oPopup = new Window({
+            id:'amazon_confirm_modal',
+            className: 'alphacube',
+            url: url,
+            width: 300,
+            height: 400,
+            minimizable: false,
+            maximizable: false,
+            showEffectOptions: {
+                duration: 0.4
+            },
+            hideEffectOptions:{
+                duration: 0.4
+            },
+            destroyOnClose: true,
+            onShow: function() { Event.observe($('overlay_modal'), 'click', function() { Windows.closeAll(); }) },
+            onClose: function() { $('overlay_modal').remove(); }
+        });
+        this.oPopup.setZIndex(100);
+        this.oPopup.showCenter(true);
+    }
 
-            OffAmazonPayments.jQuery("#<?php echo $this->getAmazonPayButtonId(); ?> img")
-                .css("opacity", "0.5").css("cursor", "progress");
+    // jQuery wrapper -- OffAmazonPayments.jQuery loaded by Amazon API
+    (function($j) {
+        var productAddToCartFormAmazon =  new VarienForm('product_addtocart_form');
 
-            var form = this.form;
-            var url = form.action;
+        productAddToCartFormAmazon.submit = function(button) {
+            if (this.validator.validate()) {
+                var form = this.form;
+                var url = form.action;
 
-            var e = null;
+                var e = null;
 
-            var data = OffAmazonPayments.jQuery(form).serialize();
-            data += '&isAjax=1';
-            OffAmazonPayments.jQuery('#ajax_loader').show();
+                var data = $j(form).serialize();
+                data += '&isAjax=1';
+                $j('#ajax_loader').show();
 
-            if (document.location.protocol == 'https:') {
-                url = url.replace('http:', document.location.protocol);
-            }
-            else {
-                url = url.replace('https:', document.location.protocol);
-            }
-
-            // Add via Ajax and redirect to login/payment page
-            OffAmazonPayments.jQuery.post(url, data,
-                function(){
-                    OffAmazonPayments.jQuery('#ajax_loader').hide();
-                    OffAmazonPayments.jQuery("#<?php echo $this->getAmazonPayButtonId(); ?> img[id!='amazon-button-clone']").click();
+                if (document.location.protocol == 'https:') {
+                    url = url.replace('http:', document.location.protocol);
                 }
-            )
-            ;
+                else {
+                    url = url.replace('https:', document.location.protocol);
+                }
 
-        }
-    }.bind(productAddToCartFormAmazon);
+                // Add via Ajax and redirect to login/payment page
+                $j.post(url, data,
+                    function(){
+                        $j('#ajax_loader').hide();
+
+                        <?php if ($this->isTokenEnabled()) : ?>
+                        var amazonModal = new AmazonConfirmModal();
+                        amazonModal.show('<?php print $this->getAjaxCartModalUrl(); ?>');
+                        <?php else : ?>
+                        $j("#<?php echo $this->getAmazonPayButtonId(); ?> img[id!='amazon-button-clone']").click();
+                        <?php endif; ?>
+                    }
+                );
+
+            }
+        }.bind(productAddToCartFormAmazon);
+
+        // Duplicate Amazon button
+        $j("#<?php echo $this->getAmazonPayButtonId(); ?> img")
+            .hide()
+            .clone()
+            .attr("id", "amazon-button-clone")
+            .show()
+            .appendTo("#<?php echo $this->getAmazonPayButtonId(); ?>")
+            .click(productAddToCartFormAmazon.submit);
 
 
-    // Duplicate Amazon button
-    OffAmazonPayments.jQuery("#<?php echo $this->getAmazonPayButtonId(); ?> img")
-        .hide()
-        .clone()
-        .attr("id", "amazon-button-clone")
-        .show()
-        .appendTo("#<?php echo $this->getAmazonPayButtonId(); ?>")
-        .click(productAddToCartFormAmazon.submit);
+  })(OffAmazonPayments.jQuery);
+
 
 
 </script>

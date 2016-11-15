@@ -260,6 +260,13 @@
     -->
     <catalog_product_view>
 
+        <reference name="head">
+            <action method="addJs" ifconfig="payment/amazon_payments/enabled"><script>prototype/window.js</script></action>
+            <action method="addItem" ifconfig="payment/amazon_payments/enabled"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem" ifconfig="payment/amazon_payments/enabled"><type>js_css</type><name>prototype/windows/themes/alphacube.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>amazon_payments/css/popup_alphacube.css</name><params/></action>
+        </reference>
+
         <block type="amazon_payments/button" name="addtocart-amazon-button" template="amazon_payments/button_shortcut.phtml" />
 
         <block type="amazon_payments/script" name="amazon_payments.script" template="amazon_payments/script.phtml" />
@@ -301,6 +308,30 @@
             <block type="amazon_payments/button" name="AmazonPayButtonSideCart" template="amazon_payments/button.phtml"/>
         </reference>
     </default>
+
+    <!--
+    Ajax cart for Token Payments
+    -->
+    <amazon_payments_token_ajaxcart>
+        <reference name="root">
+            <action method="setTemplate"><template>page/popup.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <block type="amazon_payments/script" name="amazon_payments.script" template="amazon_payments/script.phtml" />
+            <action method="addItem"><type>skin_css</type><name>amazon_payments/css/popup_alphacube.css</name><params/></action>
+        </reference>
+
+        <reference name="content">
+            <block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml" before="-">
+                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
+            </block>
+
+            <block type="amazon_payments/button" name="addtocart-amazon-button" template="amazon_payments/button_shortcut_ajaxcart.phtml" />
+        </reference>
+    </amazon_payments_token_ajaxcart>
 
     <!--
     Acceptance Mark/Badge

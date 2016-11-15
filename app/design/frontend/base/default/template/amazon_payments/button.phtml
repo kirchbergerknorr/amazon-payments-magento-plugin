@@ -32,6 +32,15 @@
 
             authRequest = amazon.Login.authorize (loginOptions, "<?php echo (!$this->isPopup()) ? $this->getLoginAuthUrl() : $this->getCheckoutUrl(); ?>");
         },
+
+        <?php if ($this->isTokenEnabled()) : ?>
+        agreementType: 'BillingAgreement',
+        onSignIn: function (billingAgreement) {
+            amazonBillingAgreementId = billingAgreement.getAmazonBillingAgreementId();
+            Mage.Cookies.set("amazonBillingAgreementId", amazonBillingAgreementId);
+        },
+        <?php endif; ?>
+
         onError: function(error) {
             console.log(error);
         }

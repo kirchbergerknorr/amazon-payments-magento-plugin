@@ -30,6 +30,8 @@ class Amazon_Payments_Model_Config
     const CONFIG_XML_PATH_SOFT_DESC      = 'payment/amazon_payments/soft_descriptor';
     const CONFIG_XML_PATH_SECURE_CART    = 'payment/amazon_payments/secure_cart';
     const CONFIG_XML_PATH_IS_ASYNC       = 'payment/amazon_payments/is_async';
+    const CONFIG_XML_PATH_TOKEN_ENABLED  = 'payment/amazon_payments/token_enabled';
+    const CONFIG_XML_PATH_TOKEN_REQUIRED = 'payment/amazon_payments/token_required';
     const CONFIG_XML_PATH_RESTRICTED_IPS = 'payment/amazon_payments/restricted_ips';
 
     const CONFIG_XML_PATH_BUTTON_TYPE    = 'payment/amazon_payments/button_type';
@@ -102,6 +104,28 @@ class Amazon_Payments_Model_Config
     public function isDebugMode($store = null)
     {
         return (bool) $this->_getStoreConfig(self::CONFIG_XML_PATH_DEBUG, $store);
+    }
+
+    /**
+     * Is tokenized payments enabled?
+     *
+     * @param   store $store
+     * @return  bool
+     */
+    public function isTokenEnabled($store = null)
+    {
+        return (bool) $this->_getStoreConfig(self::CONFIG_XML_PATH_TOKEN_ENABLED, $store);
+    }
+
+    /**
+     * Is tokenized payments required?
+     *
+     * @param   store $store
+     * @return  bool
+     */
+    public function isTokenRequired($store = null)
+    {
+        return (bool) $this->_getStoreConfig(self::CONFIG_XML_PATH_TOKEN_REQUIRED, $store);
     }
 
     /**

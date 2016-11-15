@@ -287,9 +287,15 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
             }
 
 
-            $additional_information = array(
-                'order_reference' => $this->getAmazonOrderReferenceId()
-            );
+            $additional_information = array();
+
+            if ($this->getAmazonBillingAgreementId()) {
+                $additional_information['billing_agreement_id'] = $this->getAmazonBillingAgreementId();
+                $additional_information['billing_agreement_consent'] = $this->getAmazonBillingAgreementConsent();
+            }
+            else {
+                $additional_information['order_reference'] = $this->getAmazonOrderReferenceId();
+            }
 
             if ($this->getRequest()->getPost('sandbox')) {
                 $additional_information['sandbox'] = $this->getRequest()->getPost('sandbox');

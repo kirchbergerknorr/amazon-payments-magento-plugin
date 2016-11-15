@@ -103,6 +103,16 @@ class Amazon_Payments_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Retrieve ajax cart popup modal URL
+     *
+     * @return string
+     */
+    public function getAjaxCartModalUrl()
+    {
+        return Mage::getUrl('amazon_payments/token/ajaxcart', array('_secure'=>true));
+    }
+
+    /**
      * Does product attribute allow purchase with Amazon payments?
      */
     public function isEnableProductPayments()
