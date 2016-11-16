@@ -22,17 +22,25 @@
         <?php if (!$this->isPopup()) : ?>
         amazon.Login.setUseCookie(true);
         <?php endif; ?>
-
     };
 
     <?php if (!$this->isPopup()) : ?>
     src = '<?php echo $this->getWidgetsUrl(); ?>';
     <?php endif; ?>
 
+    // Async render callback
+    var AmazonPaymentsButtons = { };
+    window.onAmazonPaymentsReady = function() {
+        for (var i in AmazonPaymentsButtons) {
+            AmazonPaymentsButtons[i]();
+        }
+    }
 </script>
 
-<script type='text/javascript' src='<?php echo $this->getWidgetsUrl(); ?>'></script>
-<script>jQuery.noConflict();</script>
+<?php if ($this->getNameInLayout() == 'amazon_payments.script.checkout') : // Load synchronously ?>
+    <script type='text/javascript' src='<?php echo $this->getWidgetsUrl(); ?>'></script>
+<?php endif; ?>
+
 
 <?php if ($this->showModal()) : ?>
 
@@ -83,8 +91,6 @@ AmazonModal.prototype.resize = function() {
       this.oPopup.showCenter(true);
     }
 }
-
-
 
 
 document.observe("dom:loaded", function() {
