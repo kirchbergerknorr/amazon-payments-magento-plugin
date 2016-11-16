@@ -31,6 +31,7 @@
     // Async render callback
     var AmazonPaymentsButtons = { };
     window.onAmazonPaymentsReady = function() {
+        jQuery.noConflict();
         for (var i in AmazonPaymentsButtons) {
             AmazonPaymentsButtons[i]();
         }
@@ -39,6 +40,7 @@
 
 <?php if ($this->getNameInLayout() == 'amazon_payments.script.checkout') : // Load synchronously ?>
     <script type='text/javascript' src='<?php echo $this->getWidgetsUrl(); ?>'></script>
+    <script>jQuery.noConflict();</script>
 <?php endif; ?>
 
 
