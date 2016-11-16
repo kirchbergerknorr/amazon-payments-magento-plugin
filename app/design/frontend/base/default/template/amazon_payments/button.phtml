@@ -16,7 +16,7 @@
   <script type="text/javascript">
     var authRequest;
 
-    AmazonPaymentsButtons["<?php echo $this->getAmazonPayButtonId(); ?>"] = function() {
+    AmazonPaymentsCallbacks["<?php echo $this->getAmazonPayButtonId(); ?>"] = function() {
 
         var AmazonButtonOptions = {
             type: "<?php echo $this->getButtonType(); ?>",

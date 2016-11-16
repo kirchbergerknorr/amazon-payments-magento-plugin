@@ -497,7 +497,10 @@ addressBookOpts.onReady = function(billingAgreement) {
 <?php endif; ?>
 
 
-new OffAmazonPayments.Widgets.AddressBook(addressBookOpts).bind("amazon-widget-address");
+AmazonPaymentsCallbacks["widgets_address"] = function() {
+    new OffAmazonPayments.Widgets.AddressBook(addressBookOpts).bind("amazon-widget-address");
+}
+
 </script>
 
 
@@ -525,7 +528,9 @@ function loadAmazonWallet() {
 }
 
 <?php if (!$this->isTokenEnabled()) : ?>
-loadAmazonWallet();
+AmazonPaymentsCallbacks["widgets_wallet"] = function() {
+    loadAmazonWallet();
+}
 <?php endif; ?>
 
 </script>
