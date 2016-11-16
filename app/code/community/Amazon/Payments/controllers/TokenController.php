@@ -16,9 +16,10 @@ class Amazon_Payments_TokenController extends Mage_Core_Controller_Front_Action
      */
     public function ajaxcartAction()
     {
+        header('X-Frame-Options: ALLOW-FROM ' . Mage::getBaseUrl());
+
         $this->loadLayout();
         $this->renderLayout();
-        //echo 'here';
     }
 
     /**
@@ -26,6 +27,10 @@ class Amazon_Payments_TokenController extends Mage_Core_Controller_Front_Action
      */
     public function checkoutAction()
     {
+        header('Access-Control-Allow-Origin: ' . Mage::getUrl('',array('_secure'=>true)));
+        header('Access-Control-Allow-Methods: GET, POST');
+        header('Access-Control-Allow-Headers: Content-Type');
+
 
         $redirectUrl =  Mage::getUrl('checkout/onepage/success');
 

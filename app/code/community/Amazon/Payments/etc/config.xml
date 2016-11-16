@@ -150,6 +150,7 @@
             <simplepath>/amazon_payments/simplepath</simplepath>
             <amazon_login_verify>/amazon_payments/customer/verify</amazon_login_verify>
             <amazon_ajaxcart>/amazon_payments/token/ajaxcart</amazon_ajaxcart>
+            <amazon_token_checkout>/amazon_payments/token/checkout</amazon_token_checkout>
         </secure_url>
         <routers>
             <amazon_payments>

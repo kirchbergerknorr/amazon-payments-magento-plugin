@@ -9,11 +9,7 @@
  */
 ?>
 
-<?php
-    if (!Mage::helper('amazon_payments/data')->isEnabled()) {
-        return;
-    }
-?>
+<?php if ($this->isEnabled()) : ?>
 
 <script type='text/javascript'>
     window.onAmazonLoginReady = function() {
@@ -104,3 +100,5 @@ document.observe("dom:loaded", function() {
 </script>
 
 <?php endif; ?>
+
+<?php endif; // isEnabled ?>
