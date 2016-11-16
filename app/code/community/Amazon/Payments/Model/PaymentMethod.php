@@ -184,7 +184,7 @@ class Amazon_Payments_Model_PaymentMethod extends Mage_Payment_Model_Method_Abst
                 $amazonBillingAgreementId,
                 $this->_getMagentoReferenceId($payment) . '-bill',
                 $amount,
-                $order->getBaseCurrencyCode(),
+                $order->getOrderCurrencyCode(),
                 $captureNow,
                 ($captureNow) ? $this->_getSoftDescriptor() : null,
                 $sellerAuthorizationNote,
@@ -202,7 +202,7 @@ class Amazon_Payments_Model_PaymentMethod extends Mage_Payment_Model_Method_Abst
                 $payment->getTransactionId(),
                 $this->_getMagentoReferenceId($payment) . '-auth',
                 $amount,
-                $order->getBaseCurrencyCode(),
+                $order->getOrderCurrencyCode(),
                 $captureNow,
                 ($captureNow) ? $this->_getSoftDescriptor() : null,
                 $sellerAuthorizationNote,
@@ -334,7 +334,7 @@ class Amazon_Payments_Model_PaymentMethod extends Mage_Payment_Model_Method_Abst
             $orderAttributes = array(
                 'PlatformId' => Amazon_Payments_Model_Api::ORDER_PLATFORM_ID,
                 'OrderTotal' => array(
-                    'CurrencyCode' => $payment->getOrder()->getBaseCurrencyCode(),
+                    'CurrencyCode' => $payment->getOrder()->getOrderCurrencyCode(),
                     'Amount' => $amount,
                 )
              );
@@ -373,7 +373,7 @@ class Amazon_Payments_Model_PaymentMethod extends Mage_Payment_Model_Method_Abst
                 $apiResult = $this->_getApi()->setOrderReferenceDetails(
                     $orderReferenceId,
                     $order->getBaseGrandTotal(),
-                    $order->getBaseCurrencyCode(),
+                    $order->getOrderCurrencyCode(),
                     $order->getIncrementId(),
                     $this->_getApi()->getConfig()->getStoreName()
                 );
@@ -470,7 +470,7 @@ class Amazon_Payments_Model_PaymentMethod extends Mage_Payment_Model_Method_Abst
             $authReferenceId,
             $authReferenceId,
             $amount,
-            $order->getBaseCurrencyCode(),
+            $order->getOrderCurrencyCode(),
             $this->_getSoftDescriptor()
         );
 
@@ -524,7 +524,7 @@ class Amazon_Payments_Model_PaymentMethod extends Mage_Payment_Model_Method_Abst
             $payment->getRefundTransactionId(),
             $this->_getMagentoReferenceId($payment) . '-refund',
             $amount,
-            $order->getBaseCurrencyCode(),
+            $order->getOrderCurrencyCode(),
             null,
             $this->_getSoftDescriptor()
         );
