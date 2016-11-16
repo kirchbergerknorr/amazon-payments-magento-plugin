@@ -222,7 +222,7 @@ AmazonPaymentsMageCheckout.prototype = {
       var params = {};
 
       if (this.agreementsForm) {
-          params += '&'+Form.serialize(this.agreementsForm);
+          params = this.agreementsForm.serialize(true);
       }
 
       params.save = true;
