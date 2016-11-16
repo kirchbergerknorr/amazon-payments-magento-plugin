@@ -300,13 +300,26 @@
     Sidecart/Minicart Shortcut
     -->
     <default>
+        <block type="amazon_payments/script" name="amazon_payments.script" template="amazon_payments/script.phtml">
+            <action method="setIsDefault"><is_default>1</is_default></action>
+        </block>
+        <block type="amazon_payments/script" name="amazon_payments.script.async" template="amazon_payments/script_async.phtml" />
+        <block type="amazon_payments/button" name="AmazonPayButtonSideCart" template="amazon_payments/button.phtml"/>
+
         <reference name="head">
-            <block type="amazon_payments/script" name="amazon_payments.script" template="amazon_payments/script.phtml">
-                <action method="setIsDefault"><is_default>1</is_default></action>
-            </block>
+            <action method="append" ifconfig="payment/amazon_payments/show_in_minicart">
+                <block>amazon_payments.script</block>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <action method="append" ifconfig="payment/amazon_payments/show_in_minicart">
+                <block>amazon_payments.script.async</block>
+            </action>
         </reference>
         <reference name="cart_sidebar.extra_actions">
-            <block type="amazon_payments/button" name="AmazonPayButtonSideCart" template="amazon_payments/button.phtml"/>
+            <action method="append" ifconfig="payment/amazon_payments/show_in_minicart">
+                <block>AmazonPayButtonSideCart</block>
+            </action>
         </reference>
     </default>
 
