@@ -10,17 +10,13 @@
 ?>
 
 
-<script type='text/javascript' src='<?php echo $this->getWidgetsUrl(); ?>'></script>
-
 <script type="text/javascript">
 function amazonLogout() {
     amazon.Login.logout();
     document.cookie = "amazon_Login_accessToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 }
-
-window.onAmazonLoginReady = amazonLogout; // If not loading Widget JS
-amazonLogout();
-
+window.onAmazonLoginReady = amazonLogout;
 </script>
 
+<script type='text/javascript' src='<?php echo $this->getWidgetsUrl(); ?>'></script>
 
