@@ -187,6 +187,9 @@
         <reference name="head">
             <block type="amazon_payments/script" name="amazon_payments.script.checkout" template="amazon_payments/script.phtml" />
         </reference>
+        <reference name="before_body_end">
+            <block type="amazon_payments/script" name="amazon_payments.script.async" template="amazon_payments/script_async.phtml" />
+        </reference>
     </checkout_amazon_payments_index>
 
     <!--
@@ -333,6 +336,9 @@
         <reference name="head">
             <block type="amazon_payments/script" name="amazon_payments.script" template="amazon_payments/script.phtml" />
             <action method="addItem"><type>skin_css</type><name>amazon_payments/css/popup_alphacube.css</name><params/></action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="amazon_payments/script" name="amazon_payments.script.async" template="amazon_payments/script_async.phtml" />
         </reference>
 
         <reference name="content">
