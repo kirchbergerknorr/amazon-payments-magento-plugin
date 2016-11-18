@@ -203,10 +203,17 @@
         <!-- Mage_Checkout -->
         <remove name="right"/>
         <remove name="left"/>
-
         <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="checkout/onepage/shipping_method/available.phtml"/>
-
     </checkout_amazon_payments_shippingmethod>
+
+    <!--
+    ShipperHQ
+    -->
+    <checkout_amazon_payments_shippingmethod_shipperhq>
+        <remove name="right"/>
+        <remove name="left"/>
+        <block type="shipperhq_frontend/checkout_onepage_shipping_method_available" name="root" output="toHtml" template="shipperhq/checkout/onepage/shipping_method/available.phtml"/>
+    </checkout_amazon_payments_shippingmethod_shipperhq>
 
     <!--
     Amazon checkout shipping method additional

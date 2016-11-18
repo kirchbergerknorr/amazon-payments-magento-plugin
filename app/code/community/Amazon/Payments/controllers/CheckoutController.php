@@ -129,8 +129,19 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
         $this->_saveShipping();
         $this->_getCheckout()->getQuote()->collectTotals()->save();
 
+        $shipping_block = 'checkout_amazon_payments_shippingmethod';
+
+        // Use ShipperHQ template for split rates
+        if (Mage::helper('core')->isModuleEnabled('Shipperhq_Shipper')) {
+            $splitRates = $this->_getCheckout()->getQuote()->getShippingAddress()->getSplitRates();
+            if((Mage::helper('shipperhq_shipper')->isModuleEnabled('Shipperhq_Splitrates') && $splitRates == 1)
+                || Mage::helper('core')->isModuleEnabled('Shipperhq_Pickup')) {
+                    $shipping_block = 'checkout_amazon_payments_shippingmethod_shipperhq';
+            }
+        }
+
         $result = array(
-            'shipping_method' => $this->_getBlockHtml('checkout_amazon_payments_shippingmethod'),
+            'shipping_method' => $this->_getBlockHtml($shipping_block),
             'review'          => $this->_getBlockHtml('checkout_amazon_payments_review'),
         );
 
