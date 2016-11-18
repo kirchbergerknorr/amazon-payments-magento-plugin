@@ -234,6 +234,10 @@ class Amazon_Payments_Model_Api extends Varien_Object
             'AddressConsentToken' => $addressConsentToken,
         );
 
+        if (!$amazonOrderReferenceId && $this->_isLoggingEnabled()) {
+            Mage::log('GetOrderReferenceDetails Error: No Order Reference ID', null, $this->logFile);
+        }
+
         $response = $this->request('getOrderReferenceDetails', $request);
 
         if ($response && $response->isSetGetOrderReferenceDetailsResult()) {
