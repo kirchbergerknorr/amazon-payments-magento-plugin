@@ -114,7 +114,7 @@ class Amazon_Payments_Block_Button extends Mage_Core_Block_Template
      */
     public function isAmazonLoginEnabled()
     {
-        return $this->helper('amazon_payments')->isEnabled();
+        return $this->helper('amazon_payments')->isLoginEnabled();
     }
 
     /**
