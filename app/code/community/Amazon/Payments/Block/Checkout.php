@@ -53,4 +53,12 @@ class Amazon_Payments_Block_Checkout extends Mage_Core_Block_Template
         return $this->isTokenEnabled() && Mage::getSingleton('amazon_payments/config')->isTokenRequired();
     }
 
+    /**
+     * Show coupon/discount code?
+     */
+    public function isShowCoupon()
+    {
+        return Mage::getSingleton('amazon_payments/config')->isShowCoupon();
+    }
+
 }

@@ -34,9 +34,10 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
         }
         Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
         Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_secure' => true)));
-        $this->_initLayoutMessages('checkout/session');
+
         $this->_getCheckout()->initCheckout();
-        $this->loadLayout();
+        $this->loadLayout()
+            ->_initLayoutMessages('checkout/session');
 
         // Ajax Modal
         if($this->getRequest()->getParam('ajax')){
@@ -365,7 +366,80 @@ class Amazon_Payments_CheckoutController extends Amazon_Payments_Controller_Chec
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
+    /**
+     * Initialize coupon
+     */
+    public function couponPostAction()
+    {
 
+        $couponCode = (string) $this->getRequest()->getParam('coupon_code');
+        if ($this->getRequest()->getParam('remove') == 1) {
+            $couponCode = '';
+        }
+        $oldCouponCode = $this->_getQuote()->getCouponCode();
+
+        try {
+            $codeLength = strlen($couponCode);
+            $isCodeLengthValid = $codeLength && $codeLength <= Mage_Checkout_Helper_Cart::COUPON_CODE_MAX_LENGTH;
+
+            $this->_getQuote()->getShippingAddress()->setCollectShippingRates(true);
+            $this->_getQuote()->setCouponCode($isCodeLengthValid ? $couponCode : '')
+                ->collectTotals()
+                ->save();
+
+            if ($codeLength) {
+                if ($isCodeLengthValid && $couponCode == $this->_getQuote()->getCouponCode()) {
+                    $this->_getSession()->addSuccess(
+                        $this->__('Coupon code "%s" was applied.', Mage::helper('core')->escapeHtml($couponCode))
+                    );
+                } else {
+                    $this->_getSession()->addError(
+                        $this->__('Coupon code "%s" is not valid.', Mage::helper('core')->escapeHtml($couponCode))
+                    );
+                }
+            } else {
+                $this->_getSession()->addSuccess($this->__('Coupon code was canceled.'));
+            }
+
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        } catch (Exception $e) {
+            $this->_getSession()->addError($this->__('Cannot apply the coupon code.'));
+            Mage::logException($e);
+        }
+
+        $this->_redirect($this->_checkoutUrl);
+    }
+
+    /**
+     * Get checkout session model instance
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('checkout/session');
+    }
+
+    /**
+     * Get current active quote instance
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    protected function _getQuote()
+    {
+        return $this->_getCart()->getQuote();
+    }
+
+    /**
+     * Retrieve shopping cart model object
+     *
+     * @return Mage_Checkout_Model_Cart
+     */
+    protected function _getCart()
+    {
+        return Mage::getSingleton('checkout/cart');
+    }
 
     /**
      * Create invoice

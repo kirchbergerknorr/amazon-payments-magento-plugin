@@ -237,6 +237,7 @@
                 <button_size>medium</button_size>
                 <button_badge>1</button_badge>
                 <popup>1</popup>
+                <show_coupon>1</show_coupon>
                 <access_secret backend_model="adminhtml/system_config_backend_encrypted" />
                 <client_secret backend_model="adminhtml/system_config_backend_encrypted" />
             </amazon_payments>

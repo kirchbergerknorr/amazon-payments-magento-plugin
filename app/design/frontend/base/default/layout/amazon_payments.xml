@@ -171,7 +171,11 @@
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
+
+
+
         <reference name="content">
+            <block type="core/messages" name="messages" as="messages"/>
 
             <block type="amazon_payments/checkout" name="amazon_payments.checkout" template="amazon_payments/checkout.phtml">
 
@@ -179,8 +183,8 @@
                     <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="checkout/onepage/shipping_method/available.phtml"/>
                     <block type="checkout/onepage_shipping_method_additional" name="checkout.onepage.shipping_method.additional" as="additional" template="checkout/onepage/shipping_method/additional.phtml"/>
                 </block>
+                <block type="checkout/cart_coupon" name="checkout.amazon_payments.coupon" as="coupon" template="amazon_payments/coupon.phtml"/>
                 <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="checkout/onepage/review.phtml"/>
-
             </block>
         </reference>
 
@@ -215,8 +219,6 @@
         <block type="checkout/onepage_shipping_method_additional" name="root" output="toHtml" template="checkout/onepage/shipping_method/additional.phtml">
             <action method="setDontDisplayContainer"><param>1</param></action>
         </block>
-
-
 
     </checkout_amazon_payments_additional>
 

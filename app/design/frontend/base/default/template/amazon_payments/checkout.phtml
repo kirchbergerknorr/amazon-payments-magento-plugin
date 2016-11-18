@@ -51,6 +51,10 @@
                     <div id="amazon-widget-consent"></div>
                 <?php endif; ?>
 
+                <?php if ($this->isShowCoupon()) : ?>
+                    <?php echo $this->getChildHtml('coupon') ?>
+                <?php endif; ?>
+
             </div>
 
 
