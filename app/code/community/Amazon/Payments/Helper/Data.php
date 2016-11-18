@@ -351,7 +351,7 @@ class Amazon_Payments_Helper_Data extends Mage_Core_Helper_Abstract
         $data['country_id'] = $amazonAddress->getCountryCode();
         $data['city'] = $amazonAddress->getCity();
         $data['postcode'] = $amazonAddress->getPostalCode();
-        $data['telephone'] = $amazonAddress->getPhone() ? $amazonAddress->getPhone() : $this->__('-');
+        $data['telephone'] = $amazonAddress->getPhone() ? $amazonAddress->getPhone() : $this->__('000-000-0000');
 
         $data['street'] = array();
 
