@@ -1,9 +1,9 @@
 ## Quick Start - Login and Pay with Amazon for Magento
 
+**Please note**: this is the U.S. version. It will most probably not work for shops in Europe.
+
 [View the Complete User Guide](https://github.com/amzn/amazon-payments-magento-plugin/wiki)
 or [Learn More about Amazon Payments] (https://payments.amazon.com/sp/magento)
-
-**Please note**: this is the U.S. version. It will most probably not work for shops in Europe.
 
 ### Pre-Requisites
 * Magento CE 1.6+ or EE 1.11+.
